@@ -435,7 +435,9 @@
         return state.isPaused ? state.pausedElapsed : state.pausedElapsed + (Date.now() - state.pauseStartTime);
     }
     function pauseTyping() {
-        if (!state.isTyping || state.isPaused || !state.firstConfirmTime) return;
+        // 只看 isTyping：计时器一启动就算「正在练」，哪怕还没确认第一个字
+        // （组字期间切走时 firstConfirmTime 仍为 null，旧写法会导致计时器继续空跑）
+        if (!state.isTyping || state.isPaused) return;
         clearInterval(state.timerInterval); state.isPaused = true;
         state.pausedElapsed += Date.now() - state.pauseStartTime; state.pauseStartTime = null;
         pauseOverlay.classList.add('show'); quoteInput.blur();
@@ -444,6 +446,9 @@
         if (!state.isPaused) return;
         state.isPaused = false; state.pauseStartTime = Date.now();
         pauseOverlay.classList.remove('show');
+        // 清掉可能残留的拼音：失焦时组字可能没走完 compositionend，
+        // 不清的话恢复后会把拼音串当正文去比对，整段判红
+        quoteInput.value = ''; state.isComposing = false;
         state.timerInterval = setInterval(() => {
             timerEl.textContent = Math.floor(getEffectiveElapsed() / 1000) + 's';
         }, 500);
@@ -595,8 +600,12 @@
         if (!state.isPaused && !state.isLoading) { quoteDisplay.classList.add('active'); }
     });
     quoteInput.addEventListener('blur', () => {
-        if (!state.isComposing && !state.isPaused) quoteDisplay.classList.remove('active');
+        if (!state.isComposing) quoteDisplay.classList.remove('active');
+        pauseTyping();          // 失焦（切到别的窗口/软件）自动暂停
     });
+    // 兜底：切标签页、最小化、窗口失焦
+    window.addEventListener('blur', pauseTyping);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) pauseTyping(); });
 
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
