@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="glass-dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-theme="glass-dark" data-page-node-id="ZOcls7QSrfdgjBV5vLIlUI">
+<head data-page-node-id="076ugEjPZDuBqyYAUFY0gA">
+    <meta charset="UTF-8" data-page-node-id="4wVS5tRNz7AMjdEGIm15wm">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="tfTnq63lep5biF37U6QEWj">
     <title>⌨️ 键盘侠</title>
     <style>
         :root {
@@ -135,7 +135,7 @@
         }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* 透明但「非零尺寸」的绝对定位输入框：作为固定 IME 锚点 */
+        /* 透明但「非零尺寸」的绝对定位输入框：作为 IME 锚点，跟随当前待输入字符 */
         /* 注意1：这里不要写 left/top 的 !important —— 样式表里的 !important 优先级
            高于 JS 写的普通行内样式，会导致 syncInputPosition() 的坐标永远不生效 */
         /* 注意2：width/height 不能是 0！Edge/Win11 输入法(TSF)对 0 尺寸输入框取不到
@@ -211,37 +211,37 @@
         .pause-overlay .pause-hint { font-size: 13px; color: var(--sub); }
     </style>
 </head>
-<body>
-<div class="container">
-    <div class="overlay" id="finishOverlay">
-        <div class="result-panel">
-            <h2>🎉 完成!</h2>
-            <p id="finalStats"></p>
-            <button class="btn" onclick="resetAndNew()">再来一篇</button>
+<body data-page-node-id="n835dUaXIYSyQLqV1r1R6y">
+<div class="container" data-page-node-id="wTBQj1tu5PbSBaQxS6euou">
+    <div class="overlay" id="finishOverlay" data-page-node-id="T4wV7AErbDkUmo0gsa5uEA">
+        <div class="result-panel" data-page-node-id="SY5n2nNnXVbCMRvtZg5lCJ">
+            <h2 data-page-node-id="qDJCFRuw1dQOxhu8WHv00o">🎉 完成!</h2>
+            <p id="finalStats" data-page-node-id="bSfxnZsLifZ3CibnovEBRt"></p>
+            <button class="btn" onclick="resetAndNew()" data-page-node-id="ERthWTvfvQVWbGpTstiX0W">再来一篇</button>
         </div>
     </div>
-    <div class="pause-overlay" id="pauseOverlay">
-        <div class="pause-icon">⏸️</div>
-        <div class="pause-text">已暂停</div>
-        <div class="pause-hint">按 ESC 或点击此处继续</div>
+    <div class="pause-overlay" id="pauseOverlay" data-page-node-id="zHubocUkXAP4UkVVvihoh3">
+        <div class="pause-icon" data-page-node-id="QeQnNrej6PoNgeTIGeGYt8">⏸️</div>
+        <div class="pause-text" data-page-node-id="kNfSEeP66tuCrrvUuTmHa1">已暂停</div>
+        <div class="pause-hint" data-page-node-id="axcvnAWmVatR8BcYcCl2wp">按 ESC 或点击此处继续</div>
     </div>
 
-    <div class="header">
-        <h1>⌨️ 键盘侠</h1>
-        <div class="theme-switcher">
-            <div class="theme-btn active" data-t="glass-dark" title="极光玻璃"></div>
-            <div class="theme-btn" data-t="gradient" title="暗系渐变"></div>
-            <div class="theme-btn" data-t="retro" title="复古纸"></div>
+    <div class="header" data-page-node-id="EDTDDzdJKc5yNI0a2gCmi0">
+        <h1 data-page-node-id="lRYLwkv5AePxC1mWnzqGtv">⌨️ 键盘侠</h1>
+        <div class="theme-switcher" data-page-node-id="vKs0bMGvYWPXvcsxJeHDWK">
+            <div class="theme-btn active" data-t="glass-dark" title="极光玻璃" data-page-node-id="v9ozKftami7BCUw7gTSDHt"></div>
+            <div class="theme-btn" data-t="gradient" title="暗系渐变" data-page-node-id="L7TSFdae1j7YKQxVy2Fn8F"></div>
+            <div class="theme-btn" data-t="retro" title="复古纸" data-page-node-id="Vg5FfEhGADKlLEF88rjFgB"></div>
         </div>
     </div>
     
-    <div class="quote-display" id="quoteDisplay"></div>
+    <div class="quote-display" id="quoteDisplay" data-page-node-id="UQHxJT9Hcj5mKTwBiLoYsP"></div>
     <textarea class="input-field" id="quoteInput" wrap="off" rows="1"></textarea>
 
-    <div class="btn-row">
-        <button class="btn" id="newQuoteBtn">🔄 换一篇 / 重置</button>
+    <div class="btn-row" data-page-node-id="T6HlskU3ylMA3EpIcqICXk">
+        <button class="btn" id="newQuoteBtn" data-page-node-id="hDoKOWBFjPUChUlEbNFjjF">🔄 换一篇 / 重置</button>
     </div>
-    <p class="tip"><span id="sourceTag">线上短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 暂停/继续 · Tab 快速重置</p>
+    <p class="tip" data-page-node-id="d9FdqtqRSbnIK5EQj6NH9x"><span id="sourceTag" data-page-node-id="YM6w6bppIFTG1TjO2mZL3t">线上短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 暂停/继续 · Tab 快速重置</p>
 </div>
 
 <script>
@@ -277,7 +277,7 @@
         isPaused: false, pausedElapsed: 0, pauseStartTime: null, isLoading: false, isComplete: false
     };
 
-    // IME 锚点在一篇练习中保持不变，避免组合输入期间候选窗跟随重绘发生位移。
+    // IME 锚点：跟随当前待输入字符，但只在「非组字」时刻更新（见 syncInputPosition）。
     let imeAnchor = null;
 
     // ==================== 主题切换 ====================
@@ -286,6 +286,7 @@
             document.documentElement.setAttribute('data-theme', btn.dataset.t);
             document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            imeAnchor = null; syncInputPosition(true);   // 主题可能改变排版，重算锚点
         });
     });
 
@@ -476,28 +477,32 @@
 
     // ==================== 输入跟随定位 ====================
     /**
-     * 输入法锚点固定在正文起点，整段练习期间不跟随当前字符移动。
+     * 输入法锚点跟随「当前待输入字符」：每个字符确认后（组字结束）重算一次。
+     * ⚠ 组字过程中绝不移动锚点 —— 移动会让原生候选窗反复跳位（Edge 上甚至不弹窗），
+     * 这也是为什么只在「非组字」时刻（提交后/退格后/换篇/窗口尺寸变化）才更新锚点。
      */
     function getImeAnchor() {
-        const target = quoteDisplay.querySelector('.char');
+        const target = quoteDisplay.querySelector('.char.current') || quoteDisplay.querySelector('.char');
         if (!target) return null;
         const cRect = container.getBoundingClientRect();
         const tRect = target.getBoundingClientRect();
         return {
+            el: target,                                   // 记住锚点字符，用于判断是否需要重算
             left: tRect.left - cRect.left - container.clientLeft,
-            // 输入框底边与首行行盒底边重合，候选窗从固定位置弹出。
+            // 输入框底边与当前字符所在行盒底边重合，候选窗从字符正下方弹出。
             top: tRect.bottom - cRect.top - container.clientTop - quoteInput.offsetHeight
         };
     }
 
     function syncInputPosition(force = false) {
         // 组字过程中绝不移动输入框：会打断真实 IME 的组合状态。
-        // 锚点缓存后，即使渲染状态频繁更新，也不会改变候选窗基准。
         if (state.isComposing) return;
-        if (!imeAnchor || force) imeAnchor = getImeAnchor();
+        // 锚点字符变了（或强制/首次）才重算，避免无谓的布局测量。
+        const cur = quoteDisplay.querySelector('.char.current');
+        if (!imeAnchor || force || (cur && imeAnchor.el !== cur)) imeAnchor = getImeAnchor();
         const anchor = imeAnchor;
         if (!anchor) return;
-        // textarea 文本右对齐，其右边界始终就是 IME 光标锚点。
+        // textarea 文本右对齐 ⇒ 其右边界即 IME 光标锚点，对齐到当前字符左缘。
         quoteInput.style.left = (anchor.left - quoteInput.offsetWidth) + 'px';
         quoteInput.style.top = anchor.top + 'px';
         quoteInput.style.letterSpacing = '';
@@ -510,7 +515,7 @@
     });
 
     /**
-     * textarea 每次判定后都会被清空，让下一次组字从固定锚点开始，
+     * textarea 每次判定后都会被清空，让下一次组字从「当前字符」的新锚点开始，
      * 所以它的内容只是「本次新提交」的那一段，必须接到已确认串后面才是完整的已输入文本。
      */
     function typedBuffer() {
@@ -584,7 +589,7 @@
             try { quoteInput.setSelectionRange(0, 0); } catch(e) {}
         });
 
-        // 提交后仅重画光标，输入法锚点仍保持在正文起点
+        // 提交后重画光标，并把输入法锚点前移到新的当前字符（组字结束后才动，不会打断 IME）
         syncInputPosition();
         if (value.length >= state.quote.length) finishTyping();
     }
