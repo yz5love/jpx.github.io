@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⌨️ 键盘侠</title>
     <style>
-        :root, [data-theme="light"] {
+        :root {
             --bg: #f5f7fa; --card: #ffffff; --text: #2c3e50; --sub: #95a5a6;
             --primary: #3498db; --success: #27ae60; --error: #e74c3c;
             --cursor: #3498db; --char-default: #7f8c8d;
@@ -13,24 +13,7 @@
             --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
             --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
             --overlay-bg: rgba(255,255,255,0.92); --overlay-blur: blur(8px);
-        }
-        [data-theme="dark"] {
-            --bg: #1a1a2e; --card: #16213e; --text: #e0e0e0; --sub: #8892b0;
-            --primary: #64ffda; --success: #00b894; --error: #ff7675;
-            --cursor: #64ffda; --char-default: #576574;
-            --tooltip-bg: #fff; --tooltip-text: #1a1a2e; --radius: 20px;
-            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
-            --btn-color: #1a1a2e; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
-            --overlay-bg: rgba(22,33,62,0.94); --overlay-blur: blur(8px);
-        }
-        [data-theme="green"] {
-            --bg: #f0f4ef; --card: #fdfdfc; --text: #2d3436; --sub: #636e72;
-            --primary: #00b894; --success: #00cec9; --error: #d63031;
-            --cursor: #00b894; --char-default: #636e72;
-            --tooltip-bg: #2d3436; --tooltip-text: #fff; --radius: 20px;
-            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
-            --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
-            --overlay-bg: rgba(253,253,252,0.94); --overlay-blur: blur(8px);
+            --result-bg: #ffffff; --result-border: rgba(44,62,80,0.12);
         }
         [data-theme="retro"] {
             --bg: #d4c5a9; --card: #f5ecd7; --text: #4a3728; --sub: #8b7355;
@@ -40,15 +23,7 @@
             --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
             --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
             --overlay-bg: rgba(245,236,215,0.94); --overlay-blur: blur(8px);
-        }
-        [data-theme="typeh"] {
-            --bg: #e8e4dc; --card: #f7f5f0; --text: #3d3a36; --sub: #9c9590;
-            --primary: #6b8f71; --success: #6b8f71; --error: #c4706e;
-            --cursor: #6b8f71; --char-default: #a09890;
-            --tooltip-bg: #3d3a36; --tooltip-text: #f7f5f0; --radius: 16px;
-            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
-            --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
-            --overlay-bg: rgba(247,245,240,0.94); --overlay-blur: blur(8px);
+            --result-bg: #f5ecd7; --result-border: rgba(74,55,40,0.18);
         }
         [data-theme="gradient"] {
             --bg: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
@@ -60,17 +35,7 @@
             --card-shadow: 0 12px 40px rgba(0,0,0,0.3); --btn-color: #0f0c29;
             --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
             --overlay-bg: rgba(15,12,41,0.92); --overlay-blur: blur(16px);
-        }
-        [data-theme="apple"] {
-            --bg: #f2f2f7; --card: rgba(255, 255, 255, 0.72);
-            --text: #1d1d1f; --sub: #86868b; --primary: #0071e3; --success: #34c759; --error: #ff3b30;
-            --cursor: #0071e3; --char-default: #aeaeb2;
-            --tooltip-bg: rgba(29, 29, 31, 0.88); --tooltip-text: #fff; --radius: 24px;
-            --card-blur: blur(40px) saturate(1.8) brightness(1.02);
-            --card-border: rgba(255, 255, 255, 0.5);
-            --card-shadow: 0 8px 32px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.6);
-            --btn-color: #fff; --stats-bg: rgba(0, 0, 0, 0.03);
-            --overlay-bg: rgba(242,242,247,0.88); --overlay-blur: blur(30px) saturate(1.6);
+            --result-bg: #211d43; --result-border: rgba(255,255,255,0.14);
         }
         [data-theme="glass-dark"] {
             --bg: radial-gradient(1100px 550px at 75% -10%, rgba(56, 189, 248, 0.16), transparent 60%),
@@ -84,6 +49,7 @@
             --card-shadow: 0 16px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
             --btn-color: #061020; --stats-bg: rgba(255, 255, 255, 0.04);
             --overlay-bg: rgba(7, 7, 20, 0.82); --overlay-blur: blur(32px) saturate(1.4);
+            --result-bg: #111323; --result-border: rgba(255,255,255,0.14);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
@@ -122,51 +88,31 @@
             cursor: pointer; opacity: 0.6; transition: all 0.2s;
         }
         .theme-btn:hover, .theme-btn.active { opacity: 1; transform: scale(1.15); border-color: var(--text); }
-        .theme-btn[data-t="light"] { background: #f5f7fa; border: 1px solid #ddd; }
-        .theme-btn[data-t="dark"] { background: #1a1a2e; }
-        .theme-btn[data-t="green"] { background: #00b894; }
         .theme-btn[data-t="retro"] { background: #d4c5a9; }
-        .theme-btn[data-t="typeh"] { background: #e8e4dc; border: 1px solid #ccc8c0; }
         .theme-btn[data-t="gradient"] { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); border: 1px solid rgba(255,255,255,0.3); }
-        .theme-btn[data-t="apple"] { background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
         .theme-btn[data-t="glass-dark"] { background: linear-gradient(135deg, rgba(56,189,248,0.85), rgba(232,88,190,0.85)); border: 1px solid rgba(255,255,255,0.4); }
 
-        .stats-bar {
-            display: flex; justify-content: space-around; margin-bottom: 30px;
-            padding: 16px; background: var(--stats-bg); border-radius: 16px;
+        /* 沉浸模式只改变可见性，保留原有占位，避免正文因组件消失而跳动 */
+        .header, .btn-row, .tip {
+            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s;
         }
-        [data-theme="apple"] .stats-bar { border: 1px solid rgba(0,0,0,0.04); }
-        [data-theme="glass-dark"] .stats-bar { border: 1px solid rgba(255,255,255,0.06); }
-        .stat-item { display: flex; flex-direction: column; align-items: center; }
-        .stat-value { font-size: 28px; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
-        .stat-label { font-size: 11px; color: var(--sub); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 4px; }
-        .info-icon {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 15px; height: 15px; border-radius: 50%; background: var(--sub); color: var(--card);
-            font-size: 9px; font-weight: bold; cursor: help; position: relative;
+        .container.immersive .header,
+        .container.immersive .btn-row,
+        .container.immersive .tip {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s 0.35s;
         }
-        [data-theme="gradient"] .info-icon { color: #1e1b4b; }
-        [data-theme="apple"] .info-icon { color: #fff; }
-        [data-theme="glass-dark"] .info-icon { color: #0a0a18; }
-        .info-icon .tooltip {
-            visibility: hidden; opacity: 0; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
-            background: var(--tooltip-bg); color: var(--tooltip-text); padding: 10px 14px; border-radius: 10px;
-            font-size: 12px; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; transition: opacity 0.2s;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-        }
-        [data-theme="glass-dark"] .info-icon .tooltip { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
-        .info-icon .tooltip::after {
-            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-            border: 6px solid transparent; border-top-color: var(--tooltip-bg);
-        }
-        .info-icon:hover .tooltip { visibility: visible; opacity: 1; }
+        .container.immersive .header { transform: translateY(-8px); }
+        .container.immersive .btn-row,
+        .container.immersive .tip { transform: translateY(8px); }
 
         .quote-display {
             font-size: 24px; line-height: 2; text-align: left; margin-bottom: 25px; padding: 28px;
             background: color-mix(in srgb, var(--sub) 5%, transparent); border-radius: 16px; border: 2px solid transparent;
             user-select: none; word-break: break-word; min-height: 120px; cursor: text; position: relative;
         }
-        [data-theme="apple"] .quote-display { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04); }
         [data-theme="glass-dark"] .quote-display { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
         .quote-display.active { border-color: var(--primary); }
         .quote-display.loading { pointer-events: none; opacity: 0.6; }
@@ -189,18 +135,22 @@
         }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* ⚡ 零宽 + 单行 + 绝对定位：坐标由 syncInputPosition() 同步到当前待输入字符正下方 */
-        /* 注意：这里不要写 left/top 的 !important —— 样式表里的 !important 优先级
+        /* 透明但「非零尺寸」的绝对定位输入框：作为固定 IME 锚点 */
+        /* 注意1：这里不要写 left/top 的 !important —— 样式表里的 !important 优先级
            高于 JS 写的普通行内样式，会导致 syncInputPosition() 的坐标永远不生效 */
+        /* 注意2：width/height 不能是 0！Edge/Win11 输入法(TSF)对 0 尺寸输入框取不到
+           有效光标矩形，候选窗会完全不弹出 */
+        /* 固定宽度配合右对齐，拼音向左展开；组字过程不改变元素矩形，
+           Windows 输入法候选窗因此不会随每个拼音字母重新定位 */
         .input-field {
             position: absolute !important;
             left: 0;
             top: 0;
             opacity: 0 !important;
-            width: 0 !important;       /* 零宽：光标永远在同一个像素点 */
-            height: 20px !important;   /* 越薄 ⇒ 光标矩形越贴近当前字符，候选窗不会压下一行 */
-            font-size: 16px !important;
-            line-height: 20px !important;
+            width: 320px !important;
+            height: 36px !important;
+            font-size: 24px !important;   /* 与正文同字号，光标矩形度量贴近真实字符 */
+            line-height: 36px !important;
             padding: 0 !important;
             margin: 0 !important;
             border: none !important;
@@ -212,6 +162,8 @@
             z-index: 9999 !important;
             pointer-events: none !important;
             white-space: nowrap !important;  /* 禁止换行 */
+            text-align: right !important;
+            letter-spacing: 0;
             overflow: hidden !important;
             word-wrap: normal !important;
             overflow-wrap: normal !important;
@@ -225,7 +177,6 @@
             padding: 14px 36px; font-size: 15px; font-weight: 600; border-radius: 12px; cursor: pointer;
         }
         [data-theme="gradient"] .btn { background: linear-gradient(135deg, #a78bfa, #818cf8); color: #0f0c29; box-shadow: 0 4px 15px rgba(167, 139, 250, 0.3); }
-        [data-theme="apple"] .btn { background: #0071e3; border-radius: 980px; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25); font-weight: 500; }
         [data-theme="glass-dark"] .btn { background: linear-gradient(135deg, #38bdf8, #818cf8); color: #061020; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35); }
         .btn:hover { filter: brightness(1.08); }
         .btn:active { transform: scale(0.97); }
@@ -240,6 +191,11 @@
             opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 5;
         }
         .overlay.show { opacity: 1; pointer-events: auto; }
+        .result-panel {
+            width: min(440px, calc(100% - 40px)); padding: 32px 28px; text-align: center;
+            background: var(--result-bg); border: 1px solid var(--result-border); border-radius: 8px;
+            box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+        }
         .overlay h2 { font-size: 30px; margin-bottom: 10px; color: var(--success); }
         .overlay p { font-size: 17px; color: var(--sub); margin-bottom: 25px; }
 
@@ -258,9 +214,11 @@
 <body>
 <div class="container">
     <div class="overlay" id="finishOverlay">
-        <h2>🎉 完成!</h2>
-        <p id="finalStats"></p>
-        <button class="btn" onclick="resetAndNew()">再来一篇</button>
+        <div class="result-panel">
+            <h2>🎉 完成!</h2>
+            <p id="finalStats"></p>
+            <button class="btn" onclick="resetAndNew()">再来一篇</button>
+        </div>
     </div>
     <div class="pause-overlay" id="pauseOverlay">
         <div class="pause-icon">⏸️</div>
@@ -271,37 +229,23 @@
     <div class="header">
         <h1>⌨️ 键盘侠</h1>
         <div class="theme-switcher">
-            <div class="theme-btn" data-t="light" title="极简白"></div>
-            <div class="theme-btn" data-t="dark" title="暗夜黑"></div>
-            <div class="theme-btn" data-t="green" title="护眼绿"></div>
-            <div class="theme-btn" data-t="retro" title="复古纸"></div>
-            <div class="theme-btn" data-t="typeh" title="Typeh 沉浸"></div>
-            <div class="theme-btn" data-t="gradient" title="暗系渐变"></div>
-            <div class="theme-btn" data-t="apple" title="Apple Glass"></div>
             <div class="theme-btn active" data-t="glass-dark" title="极光玻璃"></div>
+            <div class="theme-btn" data-t="gradient" title="暗系渐变"></div>
+            <div class="theme-btn" data-t="retro" title="复古纸"></div>
         </div>
     </div>
     
-    <div class="stats-bar">
-        <div class="stat-item">
-            <span class="stat-value" id="wpm">0</span>
-            <span class="stat-label">WPM <span class="info-icon">!<span class="tooltip">WPM = Words Per Minute<br>英文：每5字符=1词 | 中文：每字=1词<br>⚡ 仅统计已确认上屏的文字<br>⏱️ 用时 = 首字确认→末字确认</span></span></span>
-        </div>
-        <div class="stat-item"><span class="stat-value" id="accuracy">100%</span><span class="stat-label">准确率</span></div>
-        <div class="stat-item"><span class="stat-value" id="timer">0s</span><span class="stat-label">用时</span></div>
-    </div>
-
     <div class="quote-display" id="quoteDisplay"></div>
-    <textarea class="input-field" id="quoteInput"></textarea>
+    <textarea class="input-field" id="quoteInput" wrap="off" rows="1"></textarea>
 
     <div class="btn-row">
         <button class="btn" id="newQuoteBtn">🔄 换一篇 / 重置</button>
     </div>
-    <p class="tip"><span id="sourceTag">本地短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 暂停/继续 · Tab 快速重置</p>
+    <p class="tip"><span id="sourceTag">线上短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 暂停/继续 · Tab 快速重置</p>
 </div>
 
 <script>
-    // ==================== 内置短文库（本地优先，无需联网）====================
+    // ==================== 内置短文库（仅作线上不可用时的兜底）====================
     const localEssays = [
         "曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。",
         "盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。",
@@ -322,17 +266,19 @@
     const quoteDisplay = $('quoteDisplay');
     const quoteInput = $('quoteInput');
     const container = document.querySelector('.container');
-    const wpmEl = $('wpm'), accEl = $('accuracy'), timerEl = $('timer');
     const overlay = $('finishOverlay'), pauseOverlay = $('pauseOverlay'), finalStats = $('finalStats');
     const newQuoteBtn = $('newQuoteBtn'), sourceTag = $('sourceTag');
 
     let state = {
-        quote: '', startTime: null, timerInterval: null,
+        quote: '', startTime: null,
         isTyping: false, isComposing: false,
         correctCount: 0, totalConfirmed: 0, confirmedValue: '',
         firstConfirmTime: null, lastConfirmTime: null,
-        isPaused: false, pausedElapsed: 0, pauseStartTime: null, isLoading: false
+        isPaused: false, pausedElapsed: 0, pauseStartTime: null, isLoading: false, isComplete: false
     };
+
+    // IME 锚点在一篇练习中保持不变，避免组合输入期间候选窗跟随重绘发生位移。
+    let imeAnchor = null;
 
     // ==================== 主题切换 ====================
     document.querySelectorAll('.theme-btn').forEach(btn => {
@@ -343,74 +289,121 @@
         });
     });
 
-    // ==================== 🌐 在线短文（后台静默补充，失败不影响使用）====================
-    // 一言默认 max_length=30，天生只出单句；这里把长度窗口拉到 60~400 字，
-    // 只挑够得上「短文」的入库，太短的直接丢弃、静默回落到本地短文库。
-    // 已知限制：一言 80 字以上的语料实测只有个位数条，所以它只能当锦上添花，
-    // 拿不到新内容就累计失败次数并自动停用，避免反复发无效请求。
+    // ==================== 🌐 线上短文 = 主来源；内置短文只在断网/超时/源挂时兜底 ====================
+    // 一言默认 max_length=30 只出单句，这里把长度窗口抬到 80~400 字，只收够得上「短文」的。
+    // 已知限制：一言 80 字以上语料实测仅个位数条，拉完一轮会自然回落到内置短文兜底；
+    // 拉取端连续 5 次只返回重复/过短内容（语料枯竭）→ 本会话停用线上，避免反复发无效请求。
     const ONLINE_URL = 'https://v1.hitokoto.cn/?c=d&c=e&c=f&c=k&min_length=80&max_length=400&encode=json';
+    const NET_TIMEOUT = 4000;          // 单次请求超时（首屏/换篇最多等这么久就兜底）
+    const RETRY_COOLDOWN = 3000;       // 网络失败冷却：冷却期内不主动发请求
+    const MIN_TEXT_LEN = 80;           // 短于它不算「短文」，丢弃重试
     const seenOnline = new Set();
-    let onlineQueue = [], onlineBusy = false, onlineMisses = 0, onlineDone = false;
+    let onlineQueue = [], onlineBusy = false;
+    let onlineDone = false;            // 语料枯竭（不是网络问题）→ 本会话转纯本地
+    let dupMisses = 0, netFails = 0;   // 连续「内容不合格」「网络失败」计数
+    let lastNetFail = 0;               // 上次网络失败时刻（冷却期内换篇即点即出，不干等）
+    let retryTimer = null;             // 网络恢复后的后台自动重试（指数退避，最长 30s 一次）
 
-    async function prefetchOnline() {
-        if (onlineDone || onlineBusy || onlineQueue.length >= 2) return;
+    function onlineCanTry() { return !onlineDone && Date.now() - lastNetFail >= RETRY_COOLDOWN; }
+
+    function scheduleRetry() {
+        if (retryTimer || onlineDone) return;                 // 已有排期则不叠加
+        const wait = Math.min(RETRY_COOLDOWN * (2 ** Math.min(netFails - 1, 4)), 30000);
+        retryTimer = setTimeout(() => { retryTimer = null; prefetchOnline(); }, wait);
+    }
+
+    /** 拉一篇可用线上短文：成功返回文本并入库；失败返回 null（不抛错）。同一时刻至多一个请求。 */
+    async function pullOnline() {
+        if (onlineBusy) return null;
         onlineBusy = true;
         try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 6000);
-            const res = await fetch(ONLINE_URL, { signal: controller.signal });
-            clearTimeout(timeout);
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const ctl = new AbortController();
+            const timer = setTimeout(() => ctl.abort(), NET_TIMEOUT);
+            let res;
+            try { res = await fetch(ONLINE_URL, { signal: ctl.signal }); }
+            finally { clearTimeout(timer); }
+            if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
             const text = (data.hitokoto || '').trim().replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
-            if (text.length < 80 || seenOnline.has(text) || localEssays.includes(text)) {
-                if (++onlineMisses >= 5) onlineDone = true;   // 语料就这么多，别再刷了
-                return;
-            }
+            if (text.length < MIN_TEXT_LEN) throw new Error('TOO_SHORT');
+            if (seenOnline.has(text) || localEssays.includes(text)) throw new Error('DUP');
             seenOnline.add(text);
-            onlineQueue.push(text);
-            onlineMisses = 0;
+            dupMisses = 0; netFails = 0;                       // 成功 → 连续失败计数清零
+            return text;
         } catch (err) {
-            console.warn('在线短文获取失败（已静默回落本地）:', err.message);
-            if (++onlineMisses >= 3) onlineDone = true;       // 网络不通，不再重试
-        } finally {
-            onlineBusy = false;
-        }
+            console.warn('在线短文不可用：', err.message);
+            if (err.message === 'TOO_SHORT' || err.message === 'DUP') {
+                if (++dupMisses >= 5) { onlineDone = true; console.warn('线上长文语料已拉完，转入内置短文兜底'); }
+            } else {
+                lastNetFail = Date.now();                      // 网络故障：进冷却并安排后台自动重试
+                netFails++;
+                scheduleRetry();
+            }
+            return null;
+        } finally { onlineBusy = false; }
+    }
+
+    /** 后台补库存：队列不足 2 篇且允许请求时再拉一篇（网络恢复后由它把线上带回来） */
+    async function prefetchOnline() {
+        if (onlineBusy || onlineQueue.length >= 2 || !onlineCanTry()) return;
+        const text = await pullOnline();
+        if (text) onlineQueue.push(text);
     }
 
     // ==================== 核心逻辑 ====================
     function resetState() {
-        clearInterval(state.timerInterval);
         Object.assign(state, {
             startTime: null, isTyping: false, isComposing: false,
             correctCount: 0, totalConfirmed: 0, confirmedValue: '',
             firstConfirmTime: null, lastConfirmTime: null,
-            isPaused: false, pausedElapsed: 0, pauseStartTime: null
+            isPaused: false, pausedElapsed: 0, pauseStartTime: null, isComplete: false
         });
-        wpmEl.textContent = '0'; accEl.textContent = '100%'; timerEl.textContent = '0s';
         pauseOverlay.classList.remove('show');
     }
 
-    /** 取下一篇：优先用后台已备好的在线短文，否则从本地短文库随机（并避免连出同一篇） */
-    function pickEssay() {
-        if (onlineQueue.length) {
-            const text = onlineQueue.shift();
-            prefetchOnline();                       // 用掉一篇，后台顺手补一篇
-            return { text, source: '在线短文' };
+    /** 换篇占位 UI：拉取期间清空文字区并显示 spinner，防止旧文被误读为新文 */
+    let pendingReload = false;           // 拉取中再次触发换篇 → 结束后自动补一次
+    function setLoadingUI(on) {
+        quoteDisplay.classList.toggle('loading', on);
+        quoteDisplay.classList.remove('active');
+        if (on) {
+            quoteDisplay.innerHTML = '';
+            const sp = document.createElement('div');
+            sp.className = 'loading-spinner';
+            sp.textContent = '正在获取线上短文…';
+            quoteDisplay.appendChild(sp);
         }
-        let text;
-        do { text = localEssays[Math.floor(Math.random() * localEssays.length)]; }
-        while (localEssays.length > 1 && text === state.quote);
-        return { text, source: '本地短文' };
     }
 
-    function loadNewQuote() {
-        const { text, source } = pickEssay();
-        resetState();
-        state.quote = text;
-        renderQuote(); quoteInput.value = ''; state.confirmedValue = '';
-        quoteInput.focus(); overlay.classList.remove('show');
-        sourceTag.textContent = source;
+    /** 换篇取文：线上短文是第一来源；本地短文只在拿不到线上时兜底 */
+    async function loadNewQuote() {
+        if (state.isLoading) { pendingReload = true; return; }
+        exitImmersive();
+        state.isLoading = true;
+        try {
+            let text = null, source = '线上短文';
+            if (onlineQueue.length) {
+                text = onlineQueue.shift();                    // 后台已备好 → 即点即出
+            } else if (onlineCanTry()) {
+                const spT = setTimeout(() => setLoadingUI(true), 120);  // 超过 120ms 才亮 spinner，防瞬闪
+                text = await pullOnline();
+                clearTimeout(spT); setLoadingUI(false);
+            }
+            if (!text) {                                       // 断网/超时/源挂/语料枯竭 → 内置兜底
+                source = '本地短文（兜底）';
+                do { text = localEssays[Math.floor(Math.random() * localEssays.length)]; }
+                while (localEssays.length > 1 && text === state.quote);
+            }
+            resetState();
+            state.quote = text;
+            renderQuote(); quoteInput.value = ''; state.confirmedValue = '';
+            quoteInput.focus(); overlay.classList.remove('show');
+            sourceTag.textContent = source;
+            prefetchOnline();                                  // 用掉一篇，后台顺手补一篇
+        } finally {
+            state.isLoading = false;
+            if (pendingReload) { pendingReload = false; loadNewQuote(); }
+        }
     }
 
     function renderQuote() {
@@ -421,24 +414,24 @@
             if (i === 0) span.classList.add('current');
             quoteDisplay.appendChild(span);
         });
-        syncInputPosition();
+        imeAnchor = null;
+        syncInputPosition(true);
     }
 
+    /** 只记起点，不做每秒刷新 —— 用时只在完成页结算时算一次 */
     function startTimer() {
         state.startTime = Date.now(); state.pauseStartTime = state.startTime;
-        state.timerInterval = setInterval(() => {
-            timerEl.textContent = Math.floor(getEffectiveElapsed() / 1000) + 's';
-        }, 500);
     }
     function getEffectiveElapsed() {
         if (!state.startTime) return 0;
         return state.isPaused ? state.pausedElapsed : state.pausedElapsed + (Date.now() - state.pauseStartTime);
     }
     function pauseTyping() {
-        // 只看 isTyping：计时器一启动就算「正在练」，哪怕还没确认第一个字
+        // 只看 isTyping：一旦开始输入就算「正在练」，哪怕还没确认第一个字
         // （组字期间切走时 firstConfirmTime 仍为 null，旧写法会导致计时器继续空跑）
         if (!state.isTyping || state.isPaused) return;
-        clearInterval(state.timerInterval); state.isPaused = true;
+        exitImmersive();
+        state.isPaused = true;
         state.pausedElapsed += Date.now() - state.pauseStartTime; state.pauseStartTime = null;
         pauseOverlay.classList.add('show'); quoteInput.blur();
     }
@@ -449,61 +442,100 @@
         // 清掉可能残留的拼音：失焦时组字可能没走完 compositionend，
         // 不清的话恢复后会把拼音串当正文去比对，整段判红
         quoteInput.value = ''; state.isComposing = false;
-        state.timerInterval = setInterval(() => {
-            timerEl.textContent = Math.floor(getEffectiveElapsed() / 1000) + 's';
-        }, 500);
         quoteInput.focus();
     }
     function togglePause() { state.isPaused ? resumeTyping() : pauseTyping(); }
 
-    function updateWPM() {
-        if (!state.firstConfirmTime || !state.lastConfirmTime) { wpmEl.textContent = '0'; return; }
+    // 成绩只在完成页结算一次（不在打字过程里刷新，注意力只留在文字上）
+    function computeWPM() {
+        if (!state.firstConfirmTime || !state.lastConfirmTime) return 0;
         const ms = state.lastConfirmTime - state.firstConfirmTime;
-        if (ms <= 0) { wpmEl.textContent = state.correctCount > 0 ? '—' : '0'; return; }
+        if (ms <= 0) return state.correctCount > 0 ? '—' : 0;
         const hasCn = /[\u4e00-\u9fff]/.test(state.quote);
         const words = hasCn ? state.correctCount : state.correctCount / 5;
-        wpmEl.textContent = Math.max(0, Math.round(words / (ms / 60000)));
+        return Math.max(0, Math.round(words / (ms / 60000)));
     }
-    function updateAccuracy() {
-        accEl.textContent = (state.totalConfirmed > 0 ? Math.round(state.correctCount / state.totalConfirmed * 100) : 100) + '%';
+    function computeAccuracy() {
+        return state.totalConfirmed > 0 ? Math.round(state.correctCount / state.totalConfirmed * 100) : 100;
     }
     function finishTyping() {
-        clearInterval(state.timerInterval); state.isTyping = false; state.isPaused = false;
+        if (state.isComplete) return;
+        const elapsed = getEffectiveElapsed();
+        state.isComplete = true; state.isTyping = false; state.isPaused = false;
+        exitImmersive();
         pauseOverlay.classList.remove('show'); quoteDisplay.classList.remove('active');
         document.querySelector('.char.current')?.classList.remove('current');
-        updateWPM(); updateAccuracy();
-        finalStats.textContent = `速度 ${wpmEl.textContent} WPM · 准确率 ${accEl.textContent} · 用时 ${(getEffectiveElapsed()/1000).toFixed(1)}s`;
+        finalStats.textContent = `速度 ${computeWPM()} WPM · 准确率 ${computeAccuracy()}% · 用时 ${(elapsed/1000).toFixed(1)}s`;
+        quoteInput.value = ''; state.isComposing = false; quoteInput.blur();
         overlay.classList.add('show');
     }
-    function resetAndNew() { loadNewQuote(); }
+    function resetAndNew() {
+        if (container.classList.contains('immersive')) return;
+        loadNewQuote();
+    }
 
     // ==================== 输入跟随定位 ====================
     /**
-     * 把隐藏输入框挪到「当前待输入字符」的正下方。
-     * 中文 IME 的候选窗跟随的是输入框光标位置，所以只要把输入框钉在
-     * 当前字符下方，候选窗就会稳定出现在正在打的字下面。
-     * 注意：值为空 + width:0 ⇒ 光标恒在输入框内容区左上角，坐标完全可预测。
+     * 输入法锚点固定在正文起点，整段练习期间不跟随当前字符移动。
      */
-    function syncInputPosition() {
-        // 组字过程中绝不移动输入框：会打断真实 IME 的组合状态
-        if (state.isComposing) return;
-        const chars = quoteDisplay.querySelectorAll('.char');
-        const target = quoteDisplay.querySelector('.char.current') || chars[state.confirmedValue.length];
-        if (!target) return;
+    function getImeAnchor() {
+        const target = quoteDisplay.querySelector('.char');
+        if (!target) return null;
         const cRect = container.getBoundingClientRect();
         const tRect = target.getBoundingClientRect();
-        quoteInput.style.left = (tRect.left - cRect.left - container.clientLeft) + 'px';
-        quoteInput.style.top = (tRect.bottom - cRect.top - container.clientTop + 2) + 'px';
+        return {
+            left: tRect.left - cRect.left - container.clientLeft,
+            // 输入框底边与首行行盒底边重合，候选窗从固定位置弹出。
+            top: tRect.bottom - cRect.top - container.clientTop - quoteInput.offsetHeight
+        };
     }
-    window.addEventListener('resize', syncInputPosition);
-    window.addEventListener('scroll', syncInputPosition, true);
+
+    function syncInputPosition(force = false) {
+        // 组字过程中绝不移动输入框：会打断真实 IME 的组合状态。
+        // 锚点缓存后，即使渲染状态频繁更新，也不会改变候选窗基准。
+        if (state.isComposing) return;
+        if (!imeAnchor || force) imeAnchor = getImeAnchor();
+        const anchor = imeAnchor;
+        if (!anchor) return;
+        // textarea 文本右对齐，其右边界始终就是 IME 光标锚点。
+        quoteInput.style.left = (anchor.left - quoteInput.offsetWidth) + 'px';
+        quoteInput.style.top = anchor.top + 'px';
+        quoteInput.style.letterSpacing = '';
+        quoteInput.scrollLeft = 0;
+    }
+    // 只有布局尺寸变化时才需要重新测量；滚动不会改变相对容器坐标。
+    window.addEventListener('resize', () => {
+        imeAnchor = null;
+        syncInputPosition(true);
+    });
 
     /**
-     * textarea 每次判定后都会被清空（为了让光标恒在内容区左上角，稳定 IME 候选窗位置），
+     * textarea 每次判定后都会被清空，让下一次组字从固定锚点开始，
      * 所以它的内容只是「本次新提交」的那一段，必须接到已确认串后面才是完整的已输入文本。
      */
     function typedBuffer() {
         return state.confirmedValue + quoteInput.value;
+    }
+
+    /**
+     * Edge 的原生输入法会跟随组字光标，而不只跟随 textarea 的元素矩形。
+     * 抵消拼音字符的总前进宽度，让组字光标始终留在初始锚点；不改元素位置或尺寸。
+     */
+    let compMeasurer = null;
+    function lockCompositionCaret() {
+        const value = quoteInput.value || '';
+        const charCount = [...value].length;
+        if (!charCount) { quoteInput.style.letterSpacing = ''; return; }
+        if (!compMeasurer) {
+            compMeasurer = document.createElement('span');
+            compMeasurer.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;pointer-events:none;letter-spacing:0;';
+            document.body.appendChild(compMeasurer);
+        }
+        compMeasurer.style.font = getComputedStyle(quoteInput).font;
+        compMeasurer.textContent = value;
+        const textWidth = compMeasurer.getBoundingClientRect().width;
+        quoteInput.style.letterSpacing = (-textWidth / charCount) + 'px';
+        quoteInput.scrollLeft = 0;
     }
 
     // ==================== 渲染引擎 ====================
@@ -520,16 +552,14 @@
         });
         state.correctCount = correct;
         state.totalConfirmed = pos;
-        updateAccuracy();
         syncInputPosition();
     }
 
     /**
-     * ⚡ 核心防抖：每次验证后立即清空 textarea 并重置 caret 到 0
-     * 这确保 IME 追踪的光标坐标永远是同一个物理像素点
+     * 每次验证后立即清空 textarea 并重置 caret。
      */
     function validateAndRender(value) {
-        if (state.isPaused || state.isLoading) return;
+        if (state.isPaused || state.isLoading || state.isComplete) return;
         const prevLen = state.confirmedValue.length;
         const chars = quoteDisplay.querySelectorAll('.char');
         state.correctCount = 0; state.totalConfirmed = value.length;
@@ -546,35 +576,38 @@
             state.lastConfirmTime = now;
         }
         state.confirmedValue = value;
-        updateWPM(); updateAccuracy();
 
-        // ⚡ 关键：立即清空值 + 强制 caret 归零
-        // 由于 width:0 + white-space:nowrap，caret 的物理坐标永远不会变
+        // 立即清空值并重置 caret，下一次组字从新的当前字符开始。
         quoteInput.value = '';
         state.confirmedValue = value; // 保留逻辑值用于比对
         requestAnimationFrame(() => {
             try { quoteInput.setSelectionRange(0, 0); } catch(e) {}
         });
 
-        // 先同步位置（finishTyping 会摘掉 .current），再判断是否结束
+        // 提交后仅重画光标，输入法锚点仍保持在正文起点
         syncInputPosition();
         if (value.length >= state.quote.length) finishTyping();
     }
 
     // ==================== 事件绑定 ====================
     quoteInput.addEventListener('compositionstart', () => {
-        if (state.isPaused || state.isLoading) return;
-        state.isComposing = true; renderFrozenState();
+        if (state.isPaused || state.isLoading || state.isComplete) return;
+        state.isComposing = true; renderFrozenState(); lockCompositionCaret();
     });
+    quoteInput.addEventListener('compositionupdate', lockCompositionCaret);
     quoteInput.addEventListener('compositionend', () => {
-        if (state.isPaused || state.isLoading) return;
+        if (state.isPaused || state.isLoading || state.isComplete) return;
         state.isComposing = false;
         requestAnimationFrame(() => validateAndRender(typedBuffer()));
     });
     quoteInput.addEventListener('input', () => {
-        if (state.isPaused || state.isLoading) return;
+        if (state.isPaused || state.isLoading || state.isComplete) {
+            quoteInput.value = '';
+            return;
+        }
         if (!state.isTyping && quoteInput.value.length > 0) { state.isTyping = true; startTimer(); }
-        state.isComposing ? renderFrozenState() : validateAndRender(typedBuffer());
+        if (state.isComposing) { renderFrozenState(); lockCompositionCaret(); }
+        else validateAndRender(typedBuffer());
     });
 
     /**
@@ -593,15 +626,42 @@
         renderFrozenState();
     });
 
+    function enterImmersive() {
+        if (!state.isPaused && !state.isLoading && !overlay.classList.contains('show')) {
+            container.classList.add('immersive');
+            newQuoteBtn.disabled = true;
+        }
+    }
+    function exitImmersive() {
+        container.classList.remove('immersive');
+        newQuoteBtn.disabled = false;
+    }
+
     quoteDisplay.addEventListener('click', () => {
-        if (!state.isPaused && !state.isLoading) { quoteInput.focus(); }
+        if (!state.isPaused && !state.isLoading) {
+            enterImmersive();
+            quoteInput.focus();
+        }
+    });
+    document.addEventListener('pointerdown', e => {
+        if (!container.classList.contains('immersive') || quoteDisplay.contains(e.target) || e.target === quoteInput) return;
+        exitImmersive();
+        quoteDisplay.classList.remove('active');
+        quoteInput.blur();
     });
     quoteInput.addEventListener('focus', () => {
         if (!state.isPaused && !state.isLoading) { quoteDisplay.classList.add('active'); }
     });
+    // 页面内点「换一篇 / 皮肤」属于主动操作，不算被打断；只有焦点真正离开页面/窗口才自动暂停
+    let suppressAutoPause = false;
+    const suppressOnce = () => { suppressAutoPause = true; setTimeout(() => suppressAutoPause = false, 0); };
+    newQuoteBtn.addEventListener('pointerdown', suppressOnce);
+    document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('pointerdown', suppressOnce));
+
     quoteInput.addEventListener('blur', () => {
         if (!state.isComposing) quoteDisplay.classList.remove('active');
-        pauseTyping();          // 失焦（切到别的窗口/软件）自动暂停
+        if (suppressAutoPause || document.hasFocus()) return;   // 焦点还在页面内（点按钮/皮肤等）→ 不暂停
+        pauseTyping();                                          // 焦点被外部软件拿走 → 自动暂停
     });
     // 兜底：切标签页、最小化、窗口失焦
     window.addEventListener('blur', pauseTyping);
@@ -619,8 +679,7 @@
     pauseOverlay.addEventListener('click', resumeTyping);
     newQuoteBtn.addEventListener('click', resetAndNew);
 
-    loadNewQuote();      // 本地优先：首屏零等待
-    prefetchOnline();    // 后台静默补充在线短文
+    loadNewQuote();      // 线上优先：首屏先拉线上短文，失败自动兜底内置库
 </script>
 </body>
 </html>
