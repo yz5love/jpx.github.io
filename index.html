@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="glass-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>经典短文打字训练 Pro</title>
+    <style>
+        :root, [data-theme="light"] {
+            --bg: #f5f7fa; --card: #ffffff; --text: #2c3e50; --sub: #95a5a6;
+            --primary: #3498db; --success: #27ae60; --error: #e74c3c;
+            --cursor: #3498db; --char-default: #7f8c8d;
+            --tooltip-bg: #333; --tooltip-text: #fff; --radius: 20px;
+            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
+            --overlay-bg: rgba(255,255,255,0.92); --overlay-blur: blur(8px);
+        }
+        [data-theme="dark"] {
+            --bg: #1a1a2e; --card: #16213e; --text: #e0e0e0; --sub: #8892b0;
+            --primary: #64ffda; --success: #00b894; --error: #ff7675;
+            --cursor: #64ffda; --char-default: #576574;
+            --tooltip-bg: #fff; --tooltip-text: #1a1a2e; --radius: 20px;
+            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            --btn-color: #1a1a2e; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
+            --overlay-bg: rgba(22,33,62,0.94); --overlay-blur: blur(8px);
+        }
+        [data-theme="green"] {
+            --bg: #f0f4ef; --card: #fdfdfc; --text: #2d3436; --sub: #636e72;
+            --primary: #00b894; --success: #00cec9; --error: #d63031;
+            --cursor: #00b894; --char-default: #636e72;
+            --tooltip-bg: #2d3436; --tooltip-text: #fff; --radius: 20px;
+            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
+            --overlay-bg: rgba(253,253,252,0.94); --overlay-blur: blur(8px);
+        }
+        [data-theme="retro"] {
+            --bg: #d4c5a9; --card: #f5ecd7; --text: #4a3728; --sub: #8b7355;
+            --primary: #c0392b; --success: #27ae60; --error: #c0392b;
+            --cursor: #c0392b; --char-default: #8b7355;
+            --tooltip-bg: #4a3728; --tooltip-text: #f5ecd7; --radius: 20px;
+            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
+            --overlay-bg: rgba(245,236,215,0.94); --overlay-blur: blur(8px);
+        }
+        [data-theme="typeh"] {
+            --bg: #e8e4dc; --card: #f7f5f0; --text: #3d3a36; --sub: #9c9590;
+            --primary: #6b8f71; --success: #6b8f71; --error: #c4706e;
+            --cursor: #6b8f71; --char-default: #a09890;
+            --tooltip-bg: #3d3a36; --tooltip-text: #f7f5f0; --radius: 16px;
+            --card-blur: none; --card-border: transparent; --card-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            --btn-color: #fff; --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
+            --overlay-bg: rgba(247,245,240,0.94); --overlay-blur: blur(8px);
+        }
+        [data-theme="gradient"] {
+            --bg: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --card: rgba(255, 255, 255, 0.06); --text: #e8e6f0; --sub: #9088b8;
+            --primary: #a78bfa; --success: #6ee7b7; --error: #fca5a5;
+            --cursor: #a78bfa; --char-default: #6b6394;
+            --tooltip-bg: rgba(255,255,255,0.95); --tooltip-text: #1e1b4b; --radius: 20px;
+            --card-blur: blur(20px) saturate(1.4); --card-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 12px 40px rgba(0,0,0,0.3); --btn-color: #0f0c29;
+            --stats-bg: color-mix(in srgb, var(--sub) 8%, transparent);
+            --overlay-bg: rgba(15,12,41,0.92); --overlay-blur: blur(16px);
+        }
+        [data-theme="apple"] {
+            --bg: #f2f2f7; --card: rgba(255, 255, 255, 0.72);
+            --text: #1d1d1f; --sub: #86868b; --primary: #0071e3; --success: #34c759; --error: #ff3b30;
+            --cursor: #0071e3; --char-default: #aeaeb2;
+            --tooltip-bg: rgba(29, 29, 31, 0.88); --tooltip-text: #fff; --radius: 24px;
+            --card-blur: blur(40px) saturate(1.8) brightness(1.02);
+            --card-border: rgba(255, 255, 255, 0.5);
+            --card-shadow: 0 8px 32px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.6);
+            --btn-color: #fff; --stats-bg: rgba(0, 0, 0, 0.03);
+            --overlay-bg: rgba(242,242,247,0.88); --overlay-blur: blur(30px) saturate(1.6);
+        }
+        [data-theme="glass-dark"] {
+            --bg: radial-gradient(1100px 550px at 75% -10%, rgba(56, 189, 248, 0.16), transparent 60%),
+                  radial-gradient(900px 500px at 5% 110%, rgba(168, 85, 247, 0.18), transparent 60%), #070714;
+            --card: rgba(255, 255, 255, 0.055); --text: #eef0f6; --sub: #7d8099;
+            --primary: #38bdf8; --success: #34d399; --error: #fb7185;
+            --cursor: #38bdf8; --char-default: #4e5168;
+            --tooltip-bg: rgba(15, 17, 30, 0.88); --tooltip-text: #eef0f6; --radius: 24px;
+            --card-blur: blur(28px) saturate(1.6) brightness(1.06);
+            --card-border: rgba(255, 255, 255, 0.10);
+            --card-shadow: 0 16px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+            --btn-color: #061020; --stats-bg: rgba(255, 255, 255, 0.04);
+            --overlay-bg: rgba(7, 7, 20, 0.82); --overlay-blur: blur(32px) saturate(1.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif;
+            background: var(--bg); color: var(--text);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        }
+        body::before, body::after {
+            content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; opacity: 0;
+            filter: blur(80px); transition: opacity 0.6s ease;
+        }
+        html[data-theme="glass-dark"] body::before {
+            opacity: 1; width: 45vw; height: 45vw; max-width: 620px; max-height: 620px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.5), transparent 65%);
+            top: -12%; left: -8%; animation: drift1 20s ease-in-out infinite alternate;
+        }
+        html[data-theme="glass-dark"] body::after {
+            opacity: 1; width: 42vw; height: 42vw; max-width: 560px; max-height: 560px;
+            background: radial-gradient(circle, rgba(232, 88, 190, 0.4), transparent 65%);
+            bottom: -14%; right: -8%; animation: drift2 26s ease-in-out infinite alternate;
+        }
+        @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(12vw, 10vh) scale(1.15); } }
+        @keyframes drift2 { from { transform: translate(0,0) scale(1.1); } to { transform: translate(-10vw, -8vh) scale(0.95); } }
+
+        .container {
+            background: var(--card); backdrop-filter: var(--card-blur); -webkit-backdrop-filter: var(--card-blur);
+            border: 1px solid var(--card-border); width: 100%; max-width: 820px;
+            padding: 44px; border-radius: var(--radius); box-shadow: var(--card-shadow); position: relative; z-index: 1;
+        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+        h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .theme-switcher { display: flex; gap: 8px; flex-wrap: wrap; }
+        .theme-btn {
+            width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent;
+            cursor: pointer; opacity: 0.6; transition: all 0.2s;
+        }
+        .theme-btn:hover, .theme-btn.active { opacity: 1; transform: scale(1.15); border-color: var(--text); }
+        .theme-btn[data-t="light"] { background: #f5f7fa; border: 1px solid #ddd; }
+        .theme-btn[data-t="dark"] { background: #1a1a2e; }
+        .theme-btn[data-t="green"] { background: #00b894; }
+        .theme-btn[data-t="retro"] { background: #d4c5a9; }
+        .theme-btn[data-t="typeh"] { background: #e8e4dc; border: 1px solid #ccc8c0; }
+        .theme-btn[data-t="gradient"] { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); border: 1px solid rgba(255,255,255,0.3); }
+        .theme-btn[data-t="apple"] { background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .theme-btn[data-t="glass-dark"] { background: linear-gradient(135deg, rgba(56,189,248,0.85), rgba(232,88,190,0.85)); border: 1px solid rgba(255,255,255,0.4); }
+
+        .stats-bar {
+            display: flex; justify-content: space-around; margin-bottom: 30px;
+            padding: 16px; background: var(--stats-bg); border-radius: 16px;
+        }
+        [data-theme="apple"] .stats-bar { border: 1px solid rgba(0,0,0,0.04); }
+        [data-theme="glass-dark"] .stats-bar { border: 1px solid rgba(255,255,255,0.06); }
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-value { font-size: 28px; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+        .stat-label { font-size: 11px; color: var(--sub); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 4px; }
+        .info-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 15px; height: 15px; border-radius: 50%; background: var(--sub); color: var(--card);
+            font-size: 9px; font-weight: bold; cursor: help; position: relative;
+        }
+        [data-theme="gradient"] .info-icon { color: #1e1b4b; }
+        [data-theme="apple"] .info-icon { color: #fff; }
+        [data-theme="glass-dark"] .info-icon { color: #0a0a18; }
+        .info-icon .tooltip {
+            visibility: hidden; opacity: 0; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+            background: var(--tooltip-bg); color: var(--tooltip-text); padding: 10px 14px; border-radius: 10px;
+            font-size: 12px; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; transition: opacity 0.2s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        [data-theme="glass-dark"] .info-icon .tooltip { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        .info-icon .tooltip::after {
+            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            border: 6px solid transparent; border-top-color: var(--tooltip-bg);
+        }
+        .info-icon:hover .tooltip { visibility: visible; opacity: 1; }
+
+        .quote-display {
+            font-size: 24px; line-height: 2; text-align: left; margin-bottom: 25px; padding: 28px;
+            background: color-mix(in srgb, var(--sub) 5%, transparent); border-radius: 16px; border: 2px solid transparent;
+            user-select: none; word-break: break-word; min-height: 120px; cursor: text; position: relative;
+        }
+        [data-theme="apple"] .quote-display { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04); }
+        [data-theme="glass-dark"] .quote-display { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+        .quote-display.active { border-color: var(--primary); }
+        .quote-display.loading { pointer-events: none; opacity: 0.6; }
+        .loading-spinner {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: var(--sub); gap: 8px;
+        }
+        .loading-spinner::before {
+            content: ''; width: 18px; height: 18px; border: 2px solid var(--sub);
+            border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .char { color: var(--char-default); position: relative; border-radius: 2px; padding: 0 1px; }
+        .char.correct { color: var(--success); }
+        .char.incorrect { color: var(--error); background: color-mix(in srgb, var(--error) 12%, transparent); }
+        .char.current::before {
+            content: ''; position: absolute; left: 0; bottom: 2px; width: 100%; height: 3px;
+            background: var(--cursor); animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ⚡ 零宽 + 单行 + 绝对定位：坐标由 syncInputPosition() 同步到当前待输入字符正下方 */
+        /* 注意：这里不要写 left/top 的 !important —— 样式表里的 !important 优先级
+           高于 JS 写的普通行内样式，会导致 syncInputPosition() 的坐标永远不生效 */
+        .input-field {
+            position: absolute !important;
+            left: 0;
+            top: 0;
+            opacity: 0 !important;
+            width: 0 !important;       /* 零宽：光标永远在同一个像素点 */
+            height: 20px !important;   /* 越薄 ⇒ 光标矩形越贴近当前字符，候选窗不会压下一行 */
+            font-size: 16px !important;
+            line-height: 20px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            outline: none !important;
+            resize: none !important;
+            background: transparent !important;
+            color: transparent !important;
+            caret-color: transparent !important;
+            z-index: 9999 !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;  /* 禁止换行 */
+            overflow: hidden !important;
+            word-wrap: normal !important;
+            overflow-wrap: normal !important;
+            transition: none !important;
+            animation: none !important;
+        }
+
+        .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            background: var(--primary); color: var(--btn-color); border: none;
+            padding: 14px 36px; font-size: 15px; font-weight: 600; border-radius: 12px; cursor: pointer;
+        }
+        [data-theme="gradient"] .btn { background: linear-gradient(135deg, #a78bfa, #818cf8); color: #0f0c29; box-shadow: 0 4px 15px rgba(167, 139, 250, 0.3); }
+        [data-theme="apple"] .btn { background: #0071e3; border-radius: 980px; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25); font-weight: 500; }
+        [data-theme="glass-dark"] .btn { background: linear-gradient(135deg, #38bdf8, #818cf8); color: #061020; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35); }
+        .btn:hover { filter: brightness(1.08); }
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; filter: none; transform: none; }
+        .tip { margin-top: 20px; font-size: 13px; color: var(--sub); text-align: center; }
+        .tip #sourceTag { color: var(--primary); font-weight: 700; }
+
+        .overlay {
+            position: absolute; inset: 0; border-radius: var(--radius);
+            background: var(--overlay-bg); backdrop-filter: var(--overlay-blur); -webkit-backdrop-filter: var(--overlay-blur);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 5;
+        }
+        .overlay.show { opacity: 1; pointer-events: auto; }
+        .overlay h2 { font-size: 30px; margin-bottom: 10px; color: var(--success); }
+        .overlay p { font-size: 17px; color: var(--sub); margin-bottom: 25px; }
+
+        .pause-overlay {
+            position: absolute; inset: 0; border-radius: var(--radius);
+            background: var(--overlay-bg); backdrop-filter: var(--overlay-blur); -webkit-backdrop-filter: var(--overlay-blur);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 6; cursor: pointer;
+        }
+        .pause-overlay.show { opacity: 1; pointer-events: auto; }
+        .pause-overlay .pause-icon { font-size: 48px; margin-bottom: 12px; }
+        .pause-overlay .pause-text { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+        .pause-overlay .pause-hint { font-size: 13px; color: var(--sub); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="overlay" id="finishOverlay">
+        <h2>🎉 完成!</h2>
+        <p id="finalStats"></p>
+        <button class="btn" onclick="resetAndNew()">再来一篇</button>
+    </div>
+    <div class="pause-overlay" id="pauseOverlay">
+        <div class="pause-icon">⏸️</div>
+        <div class="pause-text">已暂停</div>
+        <div class="pause-hint">按 ESC 或点击此处继续</div>
+    </div>
+
+    <div class="header">
+        <h1>⌨️ 打字训练</h1>
+        <div class="theme-switcher">
+            <div class="theme-btn" data-t="light" title="极简白"></div>
+            <div class="theme-btn" data-t="dark" title="暗夜黑"></div>
+            <div class="theme-btn" data-t="green" title="护眼绿"></div>
+            <div class="theme-btn" data-t="retro" title="复古纸"></div>
+            <div class="theme-btn" data-t="typeh" title="Typeh 沉浸"></div>
+            <div class="theme-btn" data-t="gradient" title="暗系渐变"></div>
+            <div class="theme-btn" data-t="apple" title="Apple Glass"></div>
+            <div class="theme-btn active" data-t="glass-dark" title="极光玻璃"></div>
+        </div>
+    </div>
+    
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-value" id="wpm">0</span>
+            <span class="stat-label">WPM <span class="info-icon">!<span class="tooltip">WPM = Words Per Minute<br>英文：每5字符=1词 | 中文：每字=1词<br>⚡ 仅统计已确认上屏的文字<br>⏱️ 用时 = 首字确认→末字确认</span></span></span>
+        </div>
+        <div class="stat-item"><span class="stat-value" id="accuracy">100%</span><span class="stat-label">准确率</span></div>
+        <div class="stat-item"><span class="stat-value" id="timer">0s</span><span class="stat-label">用时</span></div>
+    </div>
+
+    <div class="quote-display" id="quoteDisplay"></div>
+    <textarea class="input-field" id="quoteInput"></textarea>
+
+    <div class="btn-row">
+        <button class="btn" id="newQuoteBtn">🔄 换一篇 / 重置</button>
+    </div>
+    <p class="tip"><span id="sourceTag">本地短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 暂停/继续 · Tab 快速重置</p>
+</div>
+
+<script>
+    // ==================== 内置短文库（本地优先，无需联网）====================
+    const localEssays = [
+        "曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。",
+        "盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。",
+        "燕子去了，有再来的时候；杨柳枯了，有再青的时候；桃花谢了，有再开的时候。但是，聪明的，你告诉我，我们的日子为什么一去不复返呢？是有人偷了他们罢，那是谁？又藏在何处呢？",
+        "我冒了严寒，回到相隔二千余里，别了二十余年的故乡去。时候既然是深冬；渐近故乡时，天气又阴晦了，冷风吹进船舱中，呜呜的响，从篷隙向外一望，苍黄的天底下，远近横着几个萧索的荒村，没有一些活气。",
+        "对于一个在北平住惯的人，像我，冬天要是不刮风，便觉得是奇迹；济南的冬天是没有风声的。对于一个刚由伦敦回来的人，像我，冬天要能看得见日光，便觉得是怪事；济南的冬天是响晴的。",
+        "为了看日出，我常常早起。那时天还没有大亮，周围非常清静，船上只有机器的响声。天空还是一片浅蓝，颜色很浅。转眼间天边出现了一道红霞，慢慢地在扩大它的范围，加强它的亮光。",
+        "设计者和匠师们因地制宜，自出心裁，修建成功的园林当然各各不同。可是苏州各个园林在不同之中有个共同点，似乎设计者和匠师们一致追求的是：务必使游览者无论站在哪个点上，眼前总是一幅完美的图画。",
+        "我们生而孤独，我们死而孤独。然而，正是在这两者之间，我们有机会去爱，去创造，去建立联系。正是这些联系，让我们短暂的生命拥有了永恒的意义。不要害怕孤独，但更要珍惜每一次相遇。",
+        "生活不是等待风暴过去，而是学会在雨中翩翩起舞。每一天都是一个新的开始，无论昨天发生了什么，今天你都有机会重新书写自己的故事。保持热爱，奔赴山海，愿你眼里有光，心中有爱。",
+        "所有的努力都不会白费，它们只是在等待一个合适的时机。就像种子埋在土里，看不见光，也听不见声音，但它从未停止生长。你要做的，是在看不到结果的日子里，依然按时浇水，依然相信春天。",
+        "编程不仅仅是一门技术，更是一种思维方式。它教会我们如何将复杂的问题分解为简单的步骤，如何用逻辑构建世界，如何在失败中不断调试与迭代。每一个优秀的程序员，本质上都是一个乐观的问题解决者。",
+        "The quick brown fox jumps over the lazy dog. This is a classic pangram used to test typewriters and computer keyboards because it uses every letter in the English alphabet at least once.",
+        "To be, or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles and by opposing end them."
+    ];
+
+    const $ = id => document.getElementById(id);
+    const quoteDisplay = $('quoteDisplay');
+    const quoteInput = $('quoteInput');
+    const container = document.querySelector('.container');
+    const wpmEl = $('wpm'), accEl = $('accuracy'), timerEl = $('timer');
+    const overlay = $('finishOverlay'), pauseOverlay = $('pauseOverlay'), finalStats = $('finalStats');
+    const newQuoteBtn = $('newQuoteBtn'), sourceTag = $('sourceTag');
+
+    let state = {
+        quote: '', startTime: null, timerInterval: null,
+        isTyping: false, isComposing: false,
+        correctCount: 0, totalConfirmed: 0, confirmedValue: '',
+        firstConfirmTime: null, lastConfirmTime: null,
+        isPaused: false, pausedElapsed: 0, pauseStartTime: null, isLoading: false
+    };
+
+    // ==================== 主题切换 ====================
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.documentElement.setAttribute('data-theme', btn.dataset.t);
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // ==================== 🌐 在线短文（后台静默补充，失败不影响使用）====================
+    // 一言默认 max_length=30，天生只出单句；这里把长度窗口拉到 60~400 字，
+    // 只挑够得上「短文」的入库，太短的直接丢弃、静默回落到本地短文库。
+    // 已知限制：一言 80 字以上的语料实测只有个位数条，所以它只能当锦上添花，
+    // 拿不到新内容就累计失败次数并自动停用，避免反复发无效请求。
+    const ONLINE_URL = 'https://v1.hitokoto.cn/?c=d&c=e&c=f&c=k&min_length=80&max_length=400&encode=json';
+    const seenOnline = new Set();
+    let onlineQueue = [], onlineBusy = false, onlineMisses = 0, onlineDone = false;
+
+    async function prefetchOnline() {
+        if (onlineDone || onlineBusy || onlineQueue.length >= 2) return;
+        onlineBusy = true;
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 6000);
+            const res = await fetch(ONLINE_URL, { signal: controller.signal });
+            clearTimeout(timeout);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            const text = (data.hitokoto || '').trim().replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
+            if (text.length < 80 || seenOnline.has(text) || localEssays.includes(text)) {
+                if (++onlineMisses >= 5) onlineDone = true;   // 语料就这么多，别再刷了
+                return;
+            }
+            seenOnline.add(text);
+            onlineQueue.push(text);
+            onlineMisses = 0;
+        } catch (err) {
+            console.warn('在线短文获取失败（已静默回落本地）:', err.message);
+            if (++onlineMisses >= 3) onlineDone = true;       // 网络不通，不再重试
+        } finally {
+            onlineBusy = false;
+        }
+    }
+
+    // ==================== 核心逻辑 ====================
+    function resetState() {
+        clearInterval(state.timerInterval);
+        Object.assign(state, {
+            startTime: null, isTyping: false, isComposing: false,
+            correctCount: 0, totalConfirmed: 0, confirmedValue: '',
+            firstConfirmTime: null, lastConfirmTime: null,
+            isPaused: false, pausedElapsed: 0, pauseStartTime: null
+        });
+        wpmEl.textContent = '0'; accEl.textContent = '100%'; timerEl.textContent = '0s';
+        pauseOverlay.classList.remove('show');
+    }
+
+    /** 取下一篇：优先用后台已备好的在线短文，否则从本地短文库随机（并避免连出同一篇） */
+    function pickEssay() {
+        if (onlineQueue.length) {
+            const text = onlineQueue.shift();
+            prefetchOnline();                       // 用掉一篇，后台顺手补一篇
+            return { text, source: '在线短文' };
+        }
+        let text;
+        do { text = localEssays[Math.floor(Math.random() * localEssays.length)]; }
+        while (localEssays.length > 1 && text === state.quote);
+        return { text, source: '本地短文' };
+    }
+
+    function loadNewQuote() {
+        const { text, source } = pickEssay();
+        resetState();
+        state.quote = text;
+        renderQuote(); quoteInput.value = ''; state.confirmedValue = '';
+        quoteInput.focus(); overlay.classList.remove('show');
+        sourceTag.textContent = source;
+    }
+
+    function renderQuote() {
+        quoteDisplay.innerHTML = '';
+        [...state.quote].forEach((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char; span.className = 'char';
+            if (i === 0) span.classList.add('current');
+            quoteDisplay.appendChild(span);
+        });
+        syncInputPosition();
+    }
+
+    function startTimer() {
+        state.startTime = Date.now(); state.pauseStartTime = state.startTime;
+        state.timerInterval = setInterval(() => {
+            timerEl.textContent = Math.floor(getEffectiveElapsed() / 1000) + 's';
+        }, 500);
+    }
+    function getEffectiveElapsed() {
+        if (!state.startTime) return 0;
+        return state.isPaused ? state.pausedElapsed : state.pausedElapsed + (Date.now() - state.pauseStartTime);
+    }
+    function pauseTyping() {
+        if (!state.isTyping || state.isPaused || !state.firstConfirmTime) return;
+        clearInterval(state.timerInterval); state.isPaused = true;
+        state.pausedElapsed += Date.now() - state.pauseStartTime; state.pauseStartTime = null;
+        pauseOverlay.classList.add('show'); quoteInput.blur();
+    }
+    function resumeTyping() {
+        if (!state.isPaused) return;
+        state.isPaused = false; state.pauseStartTime = Date.now();
+        pauseOverlay.classList.remove('show');
+        state.timerInterval = setInterval(() => {
+            timerEl.textContent = Math.floor(getEffectiveElapsed() / 1000) + 's';
+        }, 500);
+        quoteInput.focus();
+    }
+    function togglePause() { state.isPaused ? resumeTyping() : pauseTyping(); }
+
+    function updateWPM() {
+        if (!state.firstConfirmTime || !state.lastConfirmTime) { wpmEl.textContent = '0'; return; }
+        const ms = state.lastConfirmTime - state.firstConfirmTime;
+        if (ms <= 0) { wpmEl.textContent = state.correctCount > 0 ? '—' : '0'; return; }
+        const hasCn = /[\u4e00-\u9fff]/.test(state.quote);
+        const words = hasCn ? state.correctCount : state.correctCount / 5;
+        wpmEl.textContent = Math.max(0, Math.round(words / (ms / 60000)));
+    }
+    function updateAccuracy() {
+        accEl.textContent = (state.totalConfirmed > 0 ? Math.round(state.correctCount / state.totalConfirmed * 100) : 100) + '%';
+    }
+    function finishTyping() {
+        clearInterval(state.timerInterval); state.isTyping = false; state.isPaused = false;
+        pauseOverlay.classList.remove('show'); quoteDisplay.classList.remove('active');
+        document.querySelector('.char.current')?.classList.remove('current');
+        updateWPM(); updateAccuracy();
+        finalStats.textContent = `速度 ${wpmEl.textContent} WPM · 准确率 ${accEl.textContent} · 用时 ${(getEffectiveElapsed()/1000).toFixed(1)}s`;
+        overlay.classList.add('show');
+    }
+    function resetAndNew() { loadNewQuote(); }
+
+    // ==================== 输入跟随定位 ====================
+    /**
+     * 把隐藏输入框挪到「当前待输入字符」的正下方。
+     * 中文 IME 的候选窗跟随的是输入框光标位置，所以只要把输入框钉在
+     * 当前字符下方，候选窗就会稳定出现在正在打的字下面。
+     * 注意：值为空 + width:0 ⇒ 光标恒在输入框内容区左上角，坐标完全可预测。
+     */
+    function syncInputPosition() {
+        // 组字过程中绝不移动输入框：会打断真实 IME 的组合状态
+        if (state.isComposing) return;
+        const chars = quoteDisplay.querySelectorAll('.char');
+        const target = quoteDisplay.querySelector('.char.current') || chars[state.confirmedValue.length];
+        if (!target) return;
+        const cRect = container.getBoundingClientRect();
+        const tRect = target.getBoundingClientRect();
+        quoteInput.style.left = (tRect.left - cRect.left - container.clientLeft) + 'px';
+        quoteInput.style.top = (tRect.bottom - cRect.top - container.clientTop + 2) + 'px';
+    }
+    window.addEventListener('resize', syncInputPosition);
+    window.addEventListener('scroll', syncInputPosition, true);
+
+    /**
+     * textarea 每次判定后都会被清空（为了让光标恒在内容区左上角，稳定 IME 候选窗位置），
+     * 所以它的内容只是「本次新提交」的那一段，必须接到已确认串后面才是完整的已输入文本。
+     */
+    function typedBuffer() {
+        return state.confirmedValue + quoteInput.value;
+    }
+
+    // ==================== 渲染引擎 ====================
+    function renderFrozenState() {
+        const chars = quoteDisplay.querySelectorAll('.char');
+        const pos = state.confirmedValue.length;
+        let correct = 0;
+        chars.forEach((s, i) => {
+            s.classList.remove('correct','incorrect','current');
+            if (i < pos) {
+                if (state.confirmedValue[i] === [...state.quote][i]) { s.classList.add('correct'); correct++; }
+                else s.classList.add('incorrect');
+            } else if (i === pos) s.classList.add('current');
+        });
+        state.correctCount = correct;
+        state.totalConfirmed = pos;
+        updateAccuracy();
+        syncInputPosition();
+    }
+
+    /**
+     * ⚡ 核心防抖：每次验证后立即清空 textarea 并重置 caret 到 0
+     * 这确保 IME 追踪的光标坐标永远是同一个物理像素点
+     */
+    function validateAndRender(value) {
+        if (state.isPaused || state.isLoading) return;
+        const prevLen = state.confirmedValue.length;
+        const chars = quoteDisplay.querySelectorAll('.char');
+        state.correctCount = 0; state.totalConfirmed = value.length;
+        chars.forEach((s, i) => {
+            s.classList.remove('correct','incorrect','current');
+            if (i < value.length) {
+                if (value[i] === [...state.quote][i]) { s.classList.add('correct'); state.correctCount++; }
+                else s.classList.add('incorrect');
+            } else if (i === value.length) s.classList.add('current');
+        });
+        if (value.length > prevLen) {
+            const now = Date.now();
+            if (!state.firstConfirmTime) state.firstConfirmTime = now;
+            state.lastConfirmTime = now;
+        }
+        state.confirmedValue = value;
+        updateWPM(); updateAccuracy();
+
+        // ⚡ 关键：立即清空值 + 强制 caret 归零
+        // 由于 width:0 + white-space:nowrap，caret 的物理坐标永远不会变
+        quoteInput.value = '';
+        state.confirmedValue = value; // 保留逻辑值用于比对
+        requestAnimationFrame(() => {
+            try { quoteInput.setSelectionRange(0, 0); } catch(e) {}
+        });
+
+        // 先同步位置（finishTyping 会摘掉 .current），再判断是否结束
+        syncInputPosition();
+        if (value.length >= state.quote.length) finishTyping();
+    }
+
+    // ==================== 事件绑定 ====================
+    quoteInput.addEventListener('compositionstart', () => {
+        if (state.isPaused || state.isLoading) return;
+        state.isComposing = true; renderFrozenState();
+    });
+    quoteInput.addEventListener('compositionend', () => {
+        if (state.isPaused || state.isLoading) return;
+        state.isComposing = false;
+        requestAnimationFrame(() => validateAndRender(typedBuffer()));
+    });
+    quoteInput.addEventListener('input', () => {
+        if (state.isPaused || state.isLoading) return;
+        if (!state.isTyping && quoteInput.value.length > 0) { state.isTyping = true; startTimer(); }
+        state.isComposing ? renderFrozenState() : validateAndRender(typedBuffer());
+    });
+
+    /**
+     * 退格删除：textarea 每次判定后都被清空，退格时框内本就无字可删，
+     * 浏览器不会派发 input 事件，所以必须手动回退「已确认串」的最后一个字符。
+     */
+    quoteInput.addEventListener('keydown', e => {
+        if (e.key !== 'Backspace') return;
+        if (state.isPaused || state.isLoading) return;
+        if (overlay.classList.contains('show')) return;         // 已完成，允许重开一篇而不是回退
+        if (state.isComposing || e.isComposing || e.keyCode === 229) return; // 组字中：让 IME 自己删拼音
+        if (quoteInput.value !== '') return;                    // 框内还有字：交给浏览器正常删
+        if (state.confirmedValue.length === 0) return;
+        e.preventDefault();
+        state.confirmedValue = state.confirmedValue.slice(0, -1);
+        renderFrozenState();
+    });
+
+    quoteDisplay.addEventListener('click', () => {
+        if (!state.isPaused && !state.isLoading) { quoteInput.focus(); }
+    });
+    quoteInput.addEventListener('focus', () => {
+        if (!state.isPaused && !state.isLoading) { quoteDisplay.classList.add('active'); }
+    });
+    quoteInput.addEventListener('blur', () => {
+        if (!state.isComposing && !state.isPaused) quoteDisplay.classList.remove('active');
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            if (overlay.classList.contains('show')) { resetAndNew(); return; }
+            togglePause();
+        }
+        if (e.key === 'Tab') { e.preventDefault(); resetAndNew(); }
+    });
+
+    pauseOverlay.addEventListener('click', resumeTyping);
+    newQuoteBtn.addEventListener('click', resetAndNew);
+
+    loadNewQuote();      // 本地优先：首屏零等待
+    prefetchOnline();    // 后台静默补充在线短文
+</script>
+</body>
+</html>
