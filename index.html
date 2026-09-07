@@ -195,9 +195,34 @@
             width: min(440px, calc(100% - 40px)); padding: 32px 28px; text-align: center;
             background: var(--result-bg); border: 1px solid var(--result-border); border-radius: 8px;
             box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+            position: relative; z-index: 1;   /* 压在烟花画布之上，保证文字可读 */
         }
         .overlay h2 { font-size: 30px; margin-bottom: 10px; color: var(--success); }
         .overlay p { font-size: 17px; color: var(--sub); margin-bottom: 25px; }
+
+        /* 🎆 完成庆祝：烟花画布铺满结果页（在面板之下、遮罩背景之上） */
+        .fx-canvas {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+        /* 💬 完成页随机名人名言 */
+        .quote-card {
+            margin: 0 auto 22px; padding: 14px 16px; text-align: left;
+            border-left: 3px solid var(--primary);
+            background: color-mix(in srgb, var(--primary) 9%, transparent);
+            border-radius: 8px; animation: rise 0.5s ease both;
+        }
+        .quote-tone {
+            display: inline-block; font-size: 12px; font-weight: 700; color: var(--primary);
+            background: color-mix(in srgb, var(--primary) 16%, transparent);
+            border-radius: 999px; padding: 2px 10px; margin-bottom: 8px;
+        }
+        .quote-text { font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 6px; }
+        .quote-author { font-size: 13px; color: var(--sub); text-align: right; margin: 0; }
+        @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) {
+            .quote-card { animation: none; }
+        }
 
         .pause-overlay {
             position: absolute; inset: 0; border-radius: var(--radius);
@@ -214,9 +239,15 @@
 <body data-page-node-id="n835dUaXIYSyQLqV1r1R6y">
 <div class="container" data-page-node-id="wTBQj1tu5PbSBaQxS6euou">
     <div class="overlay" id="finishOverlay" data-page-node-id="T4wV7AErbDkUmo0gsa5uEA">
+        <canvas class="fx-canvas" id="fxCanvas"></canvas>
         <div class="result-panel" data-page-node-id="SY5n2nNnXVbCMRvtZg5lCJ">
             <h2 data-page-node-id="qDJCFRuw1dQOxhu8WHv00o">🎉 完成!</h2>
             <p id="finalStats" data-page-node-id="bSfxnZsLifZ3CibnovEBRt"></p>
+            <div class="quote-card" id="celebrationCard">
+                <span class="quote-tone" id="celebrationTone">赞美</span>
+                <p class="quote-text" id="celebrationText"></p>
+                <p class="quote-author" id="celebrationAuthor"></p>
+            </div>
             <button class="btn" onclick="resetAndNew()" data-page-node-id="ERthWTvfvQVWbGpTstiX0W">再来一篇</button>
         </div>
     </div>
@@ -380,6 +411,7 @@
     async function loadNewQuote() {
         if (state.isLoading) { pendingReload = true; return; }
         exitImmersive();
+        stopFireworks();      // 开新一篇：清掉上一轮的烟花与残留粒子
         state.isLoading = true;
         try {
             let text = null, source = '线上短文';
@@ -459,6 +491,125 @@
     function computeAccuracy() {
         return state.totalConfirmed > 0 ? Math.round(state.correctCount / state.totalConfirmed * 100) : 100;
     }
+    // ==================== 🎆 完成庆祝：随机名人名言 + 烟花 ====================
+    // 目的不是打分，而是给「又坚持打完一篇」这件事一点情绪回报。
+    // 三类语气：鼓励（低谷时推一把）、加油（往前看）、赞美（肯定你刚做到的事）。
+    const CELEBRATION_QUOTES = [
+        { tone: '鼓励', text: '路漫漫其修远兮，吾将上下而求索。', author: '屈原' },
+        { tone: '鼓励', text: '天行健，君子以自强不息。', author: '《周易》' },
+        { tone: '鼓励', text: '不积跬步，无以至千里；不积小流，无以成江海。', author: '荀子' },
+        { tone: '鼓励', text: '古之立大事者，不惟有超世之才，亦必有坚忍不拔之志。', author: '苏轼' },
+        { tone: '鼓励', text: '世上无难事，只要肯登攀。', author: '毛泽东' },
+        { tone: '鼓励', text: '一个人的价值，应该看他贡献什么，而不应当看他取得什么。', author: '爱因斯坦' },
+        { tone: '鼓励', text: '如果你因错过了太阳而流泪，那么你也将错过群星了。', author: '泰戈尔' },
+        { tone: '鼓励', text: '千淘万漉虽辛苦，吹尽狂沙始到金。', author: '刘禹锡' },
+        { tone: '加油', text: '长风破浪会有时，直挂云帆济沧海。', author: '李白' },
+        { tone: '加油', text: '千磨万击还坚劲，任尔东西南北风。', author: '郑板桥' },
+        { tone: '加油', text: '会当凌绝顶，一览众山小。', author: '杜甫' },
+        { tone: '加油', text: '骐骥一跃，不能十步；驽马十驾，功在不舍。', author: '荀子' },
+        { tone: '加油', text: '业精于勤，荒于嬉；行成于思，毁于随。', author: '韩愈' },
+        { tone: '加油', text: '伟大的作品不是靠力量完成的，而是靠坚持完成的。', author: '塞缪尔·约翰逊' },
+        { tone: '加油', text: '成功不是终点，失败也并非末日，重要的是继续前进的勇气。', author: '丘吉尔' },
+        { tone: '加油', text: '锲而舍之，朽木不折；锲而不舍，金石可镂。', author: '荀子' },
+        { tone: '赞美', text: '天才就是百分之一的灵感加上百分之九十九的汗水。', author: '爱迪生' },
+        { tone: '赞美', text: '哪里有天才，我是把别人喝咖啡的工夫都用在工作上的。', author: '鲁迅' },
+        { tone: '赞美', text: '大鹏一日同风起，扶摇直上九万里。', author: '李白' },
+        { tone: '赞美', text: '春风得意马蹄疾，一日看尽长安花。', author: '孟郊' },
+        { tone: '赞美', text: '我们反复做的事造就了我们，卓越因此不是一种行为，而是一种习惯。', author: '威尔·杜兰特' },
+        { tone: '赞美', text: '种一棵树最好的时间是十年前，其次是现在。', author: '谚语' },
+        { tone: '赞美', text: '凡是过往，皆为序章。', author: '莎士比亚' },
+        { tone: '赞美', text: '宝剑锋从磨砺出，梅花香自苦寒来。', author: '谚语' }
+    ];
+    const fxCanvas = $('fxCanvas'), fxCtx = fxCanvas.getContext('2d');
+    const celebCard = $('celebrationCard'), celebTone = $('celebrationTone'),
+          celebText = $('celebrationText'), celebAuthor = $('celebrationAuthor');
+
+    let lastCelebration = '';
+    function pickCelebration() {
+        let pick;
+        do { pick = CELEBRATION_QUOTES[Math.floor(Math.random() * CELEBRATION_QUOTES.length)]; }
+        while (CELEBRATION_QUOTES.length > 1 && pick.text === lastCelebration);
+        lastCelebration = pick.text;
+        return pick;
+    }
+    function showCelebration() {
+        const { tone, text, author } = pickCelebration();
+        celebTone.textContent = tone;
+        celebText.textContent = text;
+        celebAuthor.textContent = '—— ' + author;
+        celebCard.style.animation = 'none';     // 重启入场动画
+        void celebCard.offsetWidth;
+        celebCard.style.animation = '';
+    }
+
+    // ---- 烟花：轻量 canvas 粒子，放完自动停止，不留后台 RAF ----
+    let fxRaf = null, fxParts = [], fxUntil = 0, fxNext = 0, fxDpr = 1;
+    function sizeFx() {
+        const r = fxCanvas.getBoundingClientRect();
+        fxDpr = Math.min(window.devicePixelRatio || 1, 2);
+        fxCanvas.width = Math.max(1, Math.round(r.width * fxDpr));
+        fxCanvas.height = Math.max(1, Math.round(r.height * fxDpr));
+        fxCtx.setTransform(fxDpr, 0, 0, fxDpr, 0, 0);
+    }
+    function spawnShell() {
+        const w = fxCanvas.width / fxDpr, h = fxCanvas.height / fxDpr;
+        // 弹着点偏向结果面板两侧与上方（面板不透明，正后方炸了也看不见）
+        const side = Math.random() < 0.5;
+        const cx = w * (side ? 0.08 + Math.random() * 0.24 : 0.68 + Math.random() * 0.24);
+        const cy = h * (0.10 + Math.random() * 0.45);
+        const hue = Math.floor(Math.random() * 360);
+        const n = 42 + Math.floor(Math.random() * 24);
+        for (let i = 0; i < n; i++) {
+            const a = (Math.PI * 2 * i) / n + Math.random() * 0.15;
+            const sp = 1.5 + Math.random() * 2.8;
+            fxParts.push({
+                x: cx, y: cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+                life: 1, decay: 0.011 + Math.random() * 0.012,
+                hue: (hue + Math.random() * 40 - 20 + 360) % 360,
+                size: 1.4 + Math.random() * 1.8
+            });
+        }
+    }
+    function fxStep() {
+        const w = fxCanvas.width / fxDpr, h = fxCanvas.height / fxDpr;
+        fxCtx.clearRect(0, 0, w, h);
+        // 浅色主题用正常混合（叠加在白底上会发白），深色主题用叠加更绚烂
+        const light = document.documentElement.getAttribute('data-theme') === 'retro';
+        fxCtx.globalCompositeOperation = light ? 'source-over' : 'lighter';
+        const now = Date.now();
+        if (now < fxUntil && now >= fxNext) { spawnShell(); fxNext = now + 220 + Math.random() * 180; }
+        fxParts = fxParts.filter(p => {
+            p.x += p.vx; p.y += p.vy; p.vy += 0.045; p.vx *= 0.985; p.vy *= 0.985; p.life -= p.decay;
+            if (p.life <= 0) return false;
+            const alpha = Math.max(0, Math.min(1, p.life));
+            fxCtx.strokeStyle = `hsla(${p.hue}, 95%, ${light ? 42 : 66}%, ${alpha})`;
+            fxCtx.lineWidth = p.size;
+            fxCtx.beginPath();
+            fxCtx.moveTo(p.x - p.vx * 2.2, p.y - p.vy * 2.2);   // 拖尾
+            fxCtx.lineTo(p.x, p.y);
+            fxCtx.stroke();
+            return true;
+        });
+        if (now < fxUntil || fxParts.length) fxRaf = requestAnimationFrame(fxStep);
+        else stopFireworks();
+    }
+    function launchFireworks() {
+        // 尊重系统「减弱动效」偏好
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        stopFireworks();
+        sizeFx();
+        fxUntil = Date.now() + 2600;      // 约 2.6 秒内陆续放十来发，随后自然消散
+        fxNext = 0;
+        spawnShell(); spawnShell(); spawnShell();
+        fxRaf = requestAnimationFrame(fxStep);
+    }
+    function stopFireworks() {
+        if (fxRaf) { cancelAnimationFrame(fxRaf); fxRaf = null; }
+        fxParts = []; fxUntil = 0;
+        if (fxCanvas.width) fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+    }
+    window.addEventListener('resize', () => { if (fxRaf) sizeFx(); });
+
     function finishTyping() {
         if (state.isComplete) return;
         const elapsed = getEffectiveElapsed();
@@ -469,6 +620,8 @@
         finalStats.textContent = `速度 ${computeWPM()} WPM · 准确率 ${computeAccuracy()}% · 用时 ${(elapsed/1000).toFixed(1)}s`;
         quoteInput.value = ''; state.isComposing = false; quoteInput.blur();
         overlay.classList.add('show');
+        showCelebration();     // 随机一句名人名言
+        launchFireworks();     // 🎆 放一轮烟花
     }
     function resetAndNew() {
         if (container.classList.contains('immersive')) return;
@@ -652,12 +805,16 @@
         if (!container.classList.contains('immersive') || quoteDisplay.contains(e.target) || e.target === quoteInput) return;
         exitImmersive();
         quoteDisplay.classList.remove('active');
+        suppressOnce();      // 页面内主动退出沉浸，不算被打断，避免误触发自动暂停
         quoteInput.blur();
     });
     quoteInput.addEventListener('focus', () => {
         if (!state.isPaused && !state.isLoading) { quoteDisplay.classList.add('active'); }
     });
-    // 页面内点「换一篇 / 皮肤」属于主动操作，不算被打断；只有焦点真正离开页面/窗口才自动暂停
+    // 只有「页面内主动操作」不暂停（点换篇 / 皮肤 / 退出沉浸等，靠 suppressAutoPause 精确标记）；
+    // 其余任何失焦（被其他软件打断、光标离开打字框）都自动暂停。
+    // 注意：不能用 document.hasFocus() 判断——它在 blur 触发的瞬间因焦点转移时序常仍返回 true，
+    // 会把「被外部打断」误判成「页面内操作」导致不暂停。
     let suppressAutoPause = false;
     const suppressOnce = () => { suppressAutoPause = true; setTimeout(() => suppressAutoPause = false, 0); };
     newQuoteBtn.addEventListener('pointerdown', suppressOnce);
@@ -665,8 +822,8 @@
 
     quoteInput.addEventListener('blur', () => {
         if (!state.isComposing) quoteDisplay.classList.remove('active');
-        if (suppressAutoPause || document.hasFocus()) return;   // 焦点还在页面内（点按钮/皮肤等）→ 不暂停
-        pauseTyping();                                          // 焦点被外部软件拿走 → 自动暂停
+        if (suppressAutoPause) return;   // 页面内主动操作（点换篇/皮肤等）→ 不暂停
+        pauseTyping();                   // 被外部软件打断 / 光标离开打字框 → 自动暂停
     });
     // 兜底：切标签页、最小化、窗口失焦
     window.addEventListener('blur', pauseTyping);
