@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="glass-dark" data-page-node-id="ZOcls7QSrfdgjBV5vLIlUI">
+<html lang="zh-CN" data-theme="retro" data-page-node-id="ZOcls7QSrfdgjBV5vLIlUI">
 <head data-page-node-id="076ugEjPZDuBqyYAUFY0gA">
     <meta charset="UTF-8" data-page-node-id="4wVS5tRNz7AMjdEGIm15wm">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="tfTnq63lep5biF37U6QEWj">
@@ -200,11 +200,16 @@
         .overlay h2 { font-size: 30px; margin-bottom: 10px; color: var(--success); }
         .overlay p { font-size: 17px; color: var(--sub); margin-bottom: 25px; }
 
-        /* 🎆 完成庆祝：烟花画布铺满结果页（在面板之下、遮罩背景之上） */
+        /* 🎆 完成庆祝：全屏烟花 —— 脱离 .container/.overlay 的限制，固定铺满视口并盖在最顶层
+           （overlay 上有 backdrop-filter，会成为 fixed 定位的包含块，所以画布必须放在 body 下）
+           pointer-events:none 保证不挡住「再来一篇」按钮的点击 */
         .fx-canvas {
-            position: absolute; inset: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
+            position: fixed; inset: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999;
         }
+
+        /* 🖱️ 打字中隐藏鼠标：沉浸感优先。移动鼠标 / 完成 / 退出沉浸时自动恢复 */
+        body.hide-cursor, body.hide-cursor * { cursor: none !important; }
         /* 💬 完成页随机名人名言 */
         .quote-card {
             margin: 0 auto 22px; padding: 14px 16px; text-align: left;
@@ -223,26 +228,14 @@
         @media (prefers-reduced-motion: reduce) {
             .quote-card { animation: none; }
         }
-
-        .pause-overlay {
-            position: absolute; inset: 0; border-radius: var(--radius);
-            background: var(--overlay-bg); backdrop-filter: var(--overlay-blur); -webkit-backdrop-filter: var(--overlay-blur);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 6; cursor: pointer;
-        }
-        .pause-overlay.show { opacity: 1; pointer-events: auto; }
-        .pause-overlay .pause-icon { font-size: 48px; margin-bottom: 12px; }
-        .pause-overlay .pause-text { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-        .pause-overlay .pause-hint { font-size: 13px; color: var(--sub); }
     </style>
 </head>
 <body data-page-node-id="n835dUaXIYSyQLqV1r1R6y">
+<canvas class="fx-canvas" id="fxCanvas"></canvas>
 <div class="container" data-page-node-id="wTBQj1tu5PbSBaQxS6euou">
     <div class="overlay" id="finishOverlay" data-page-node-id="T4wV7AErbDkUmo0gsa5uEA">
-        <canvas class="fx-canvas" id="fxCanvas"></canvas>
         <div class="result-panel" data-page-node-id="SY5n2nNnXVbCMRvtZg5lCJ">
             <h2 data-page-node-id="qDJCFRuw1dQOxhu8WHv00o">🎉 完成!</h2>
-            <p id="finalStats" data-page-node-id="bSfxnZsLifZ3CibnovEBRt"></p>
             <div class="quote-card" id="celebrationCard">
                 <span class="quote-tone" id="celebrationTone">赞美</span>
                 <p class="quote-text" id="celebrationText"></p>
@@ -251,18 +244,13 @@
             <button class="btn" onclick="resetAndNew()" data-page-node-id="ERthWTvfvQVWbGpTstiX0W">再来一篇</button>
         </div>
     </div>
-    <div class="pause-overlay" id="pauseOverlay" data-page-node-id="zHubocUkXAP4UkVVvihoh3">
-        <div class="pause-icon" data-page-node-id="QeQnNrej6PoNgeTIGeGYt8">⏸️</div>
-        <div class="pause-text" data-page-node-id="kNfSEeP66tuCrrvUuTmHa1">已暂停</div>
-        <div class="pause-hint" data-page-node-id="axcvnAWmVatR8BcYcCl2wp">按 ESC 或点击此处继续</div>
-    </div>
 
     <div class="header" data-page-node-id="EDTDDzdJKc5yNI0a2gCmi0">
         <h1 data-page-node-id="lRYLwkv5AePxC1mWnzqGtv">⌨️ 键盘侠</h1>
         <div class="theme-switcher" data-page-node-id="vKs0bMGvYWPXvcsxJeHDWK">
-            <div class="theme-btn active" data-t="glass-dark" title="极光玻璃" data-page-node-id="v9ozKftami7BCUw7gTSDHt"></div>
+            <div class="theme-btn active" data-t="retro" title="复古纸" data-page-node-id="Vg5FfEhGADKlLEF88rjFgB"></div>
+            <div class="theme-btn" data-t="glass-dark" title="极光玻璃" data-page-node-id="v9ozKftami7BCUw7gTSDHt"></div>
             <div class="theme-btn" data-t="gradient" title="暗系渐变" data-page-node-id="L7TSFdae1j7YKQxVy2Fn8F"></div>
-            <div class="theme-btn" data-t="retro" title="复古纸" data-page-node-id="Vg5FfEhGADKlLEF88rjFgB"></div>
         </div>
     </div>
     
@@ -272,7 +260,7 @@
     <div class="btn-row" data-page-node-id="T6HlskU3ylMA3EpIcqICXk">
         <button class="btn" id="newQuoteBtn" data-page-node-id="hDoKOWBFjPUChUlEbNFjjF">🔄 换一篇 / 重置</button>
     </div>
-    <p class="tip" data-page-node-id="d9FdqtqRSbnIK5EQj6NH9x"><span id="sourceTag" data-page-node-id="YM6w6bppIFTG1TjO2mZL3t">线上短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 暂停/继续 · Tab 快速重置</p>
+    <p class="tip" data-page-node-id="d9FdqtqRSbnIK5EQj6NH9x"><span id="sourceTag" data-page-node-id="YM6w6bppIFTG1TjO2mZL3t">线上短文</span> · 💡 点击文字区域开始 · Backspace 删除错字 · ESC 退出沉浸 · Tab 快速重置</p>
 </div>
 
 <script>
@@ -297,7 +285,7 @@
     const quoteDisplay = $('quoteDisplay');
     const quoteInput = $('quoteInput');
     const container = document.querySelector('.container');
-    const overlay = $('finishOverlay'), pauseOverlay = $('pauseOverlay'), finalStats = $('finalStats');
+    const overlay = $('finishOverlay');
     const newQuoteBtn = $('newQuoteBtn'), sourceTag = $('sourceTag');
 
     let state = {
@@ -305,7 +293,7 @@
         isTyping: false, isComposing: false,
         correctCount: 0, totalConfirmed: 0, confirmedValue: '',
         firstConfirmTime: null, lastConfirmTime: null,
-        isPaused: false, pausedElapsed: 0, pauseStartTime: null, isLoading: false, isComplete: false
+        isLoading: false, isComplete: false
     };
 
     // IME 锚点：跟随当前待输入字符，但只在「非组字」时刻更新（见 syncInputPosition）。
@@ -388,9 +376,8 @@
             startTime: null, isTyping: false, isComposing: false,
             correctCount: 0, totalConfirmed: 0, confirmedValue: '',
             firstConfirmTime: null, lastConfirmTime: null,
-            isPaused: false, pausedElapsed: 0, pauseStartTime: null, isComplete: false
+            isComplete: false
         });
-        pauseOverlay.classList.remove('show');
     }
 
     /** 换篇占位 UI：拉取期间清空文字区并显示 spinner，防止旧文被误读为新文 */
@@ -451,33 +438,13 @@
         syncInputPosition(true);
     }
 
-    /** 只记起点，不做每秒刷新 —— 用时只在完成页结算时算一次 */
+    /** 只记起点，不做每秒刷新。暂停功能已移除 —— 用时就是「开始 → 完成」的墙钟时间 */
     function startTimer() {
-        state.startTime = Date.now(); state.pauseStartTime = state.startTime;
+        state.startTime = Date.now();
     }
     function getEffectiveElapsed() {
-        if (!state.startTime) return 0;
-        return state.isPaused ? state.pausedElapsed : state.pausedElapsed + (Date.now() - state.pauseStartTime);
+        return state.startTime ? Date.now() - state.startTime : 0;
     }
-    function pauseTyping() {
-        // 只看 isTyping：一旦开始输入就算「正在练」，哪怕还没确认第一个字
-        // （组字期间切走时 firstConfirmTime 仍为 null，旧写法会导致计时器继续空跑）
-        if (!state.isTyping || state.isPaused) return;
-        exitImmersive();
-        state.isPaused = true;
-        state.pausedElapsed += Date.now() - state.pauseStartTime; state.pauseStartTime = null;
-        pauseOverlay.classList.add('show'); quoteInput.blur();
-    }
-    function resumeTyping() {
-        if (!state.isPaused) return;
-        state.isPaused = false; state.pauseStartTime = Date.now();
-        pauseOverlay.classList.remove('show');
-        // 清掉可能残留的拼音：失焦时组字可能没走完 compositionend，
-        // 不清的话恢复后会把拼音串当正文去比对，整段判红
-        quoteInput.value = ''; state.isComposing = false;
-        quoteInput.focus();
-    }
-    function togglePause() { state.isPaused ? resumeTyping() : pauseTyping(); }
 
     // 成绩只在完成页结算一次（不在打字过程里刷新，注意力只留在文字上）
     function computeWPM() {
@@ -545,28 +512,29 @@
     // ---- 烟花：轻量 canvas 粒子，放完自动停止，不留后台 RAF ----
     let fxRaf = null, fxParts = [], fxUntil = 0, fxNext = 0, fxDpr = 1;
     function sizeFx() {
-        const r = fxCanvas.getBoundingClientRect();
+        // 全屏画布：直接按视口取尺寸（用 100vw 会在出现滚动条时比视口宽出一截）
         fxDpr = Math.min(window.devicePixelRatio || 1, 2);
-        fxCanvas.width = Math.max(1, Math.round(r.width * fxDpr));
-        fxCanvas.height = Math.max(1, Math.round(r.height * fxDpr));
+        fxCanvas.width = Math.max(1, Math.round(window.innerWidth * fxDpr));
+        fxCanvas.height = Math.max(1, Math.round(window.innerHeight * fxDpr));
         fxCtx.setTransform(fxDpr, 0, 0, fxDpr, 0, 0);
     }
     function spawnShell() {
         const w = fxCanvas.width / fxDpr, h = fxCanvas.height / fxDpr;
-        // 弹着点偏向结果面板两侧与上方（面板不透明，正后方炸了也看不见）
-        const side = Math.random() < 0.5;
-        const cx = w * (side ? 0.08 + Math.random() * 0.24 : 0.68 + Math.random() * 0.24);
-        const cy = h * (0.10 + Math.random() * 0.45);
+        // 全屏铺开：横向 8%~92%、纵向 8%~62% 随机取弹着点
+        const scale = Math.min(2.2, Math.max(1, h / 520));   // 大屏等比放大爆散半径/重力，观感与在小面板时一致
+        const cx = w * (0.08 + Math.random() * 0.84);
+        const cy = h * (0.08 + Math.random() * 0.54);
         const hue = Math.floor(Math.random() * 360);
-        const n = 42 + Math.floor(Math.random() * 24);
+        const n = 46 + Math.floor(Math.random() * 28);
         for (let i = 0; i < n; i++) {
             const a = (Math.PI * 2 * i) / n + Math.random() * 0.15;
-            const sp = 1.5 + Math.random() * 2.8;
+            const sp = (1.5 + Math.random() * 2.8) * scale;
             fxParts.push({
                 x: cx, y: cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+                g: 0.045 * scale,
                 life: 1, decay: 0.011 + Math.random() * 0.012,
                 hue: (hue + Math.random() * 40 - 20 + 360) % 360,
-                size: 1.4 + Math.random() * 1.8
+                size: (1.4 + Math.random() * 1.8) * Math.min(1.6, scale)
             });
         }
     }
@@ -579,7 +547,7 @@
         const now = Date.now();
         if (now < fxUntil && now >= fxNext) { spawnShell(); fxNext = now + 220 + Math.random() * 180; }
         fxParts = fxParts.filter(p => {
-            p.x += p.vx; p.y += p.vy; p.vy += 0.045; p.vx *= 0.985; p.vy *= 0.985; p.life -= p.decay;
+            p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.985; p.vy *= 0.985; p.life -= p.decay;
             if (p.life <= 0) return false;
             const alpha = Math.max(0, Math.min(1, p.life));
             fxCtx.strokeStyle = `hsla(${p.hue}, 95%, ${light ? 42 : 66}%, ${alpha})`;
@@ -598,9 +566,9 @@
         if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         stopFireworks();
         sizeFx();
-        fxUntil = Date.now() + 2600;      // 约 2.6 秒内陆续放十来发，随后自然消散
+        fxUntil = Date.now() + 3000;      // 约 3 秒内在整屏陆续放十来发，随后自然消散
         fxNext = 0;
-        spawnShell(); spawnShell(); spawnShell();
+        spawnShell(); spawnShell(); spawnShell(); spawnShell();
         fxRaf = requestAnimationFrame(fxStep);
     }
     function stopFireworks() {
@@ -612,12 +580,10 @@
 
     function finishTyping() {
         if (state.isComplete) return;
-        const elapsed = getEffectiveElapsed();
-        state.isComplete = true; state.isTyping = false; state.isPaused = false;
+        state.isComplete = true; state.isTyping = false;
         exitImmersive();
-        pauseOverlay.classList.remove('show'); quoteDisplay.classList.remove('active');
+        quoteDisplay.classList.remove('active');
         document.querySelector('.char.current')?.classList.remove('current');
-        finalStats.textContent = `速度 ${computeWPM()} WPM · 准确率 ${computeAccuracy()}% · 用时 ${(elapsed/1000).toFixed(1)}s`;
         quoteInput.value = ''; state.isComposing = false; quoteInput.blur();
         overlay.classList.add('show');
         showCelebration();     // 随机一句名人名言
@@ -717,7 +683,7 @@
      * 每次验证后立即清空 textarea 并重置 caret。
      */
     function validateAndRender(value) {
-        if (state.isPaused || state.isLoading || state.isComplete) return;
+        if (state.isLoading || state.isComplete) return;
         const prevLen = state.confirmedValue.length;
         const chars = quoteDisplay.querySelectorAll('.char');
         state.correctCount = 0; state.totalConfirmed = value.length;
@@ -749,21 +715,22 @@
 
     // ==================== 事件绑定 ====================
     quoteInput.addEventListener('compositionstart', () => {
-        if (state.isPaused || state.isLoading || state.isComplete) return;
+        if (state.isLoading || state.isComplete) return;
         state.isComposing = true; renderFrozenState(); lockCompositionCaret();
     });
     quoteInput.addEventListener('compositionupdate', lockCompositionCaret);
     quoteInput.addEventListener('compositionend', () => {
-        if (state.isPaused || state.isLoading || state.isComplete) return;
+        if (state.isLoading || state.isComplete) return;
         state.isComposing = false;
         requestAnimationFrame(() => validateAndRender(typedBuffer()));
     });
     quoteInput.addEventListener('input', () => {
-        if (state.isPaused || state.isLoading || state.isComplete) {
+        if (state.isLoading || state.isComplete) {
             quoteInput.value = '';
             return;
         }
         if (!state.isTyping && quoteInput.value.length > 0) { state.isTyping = true; startTimer(); }
+        setCursorHidden(true);   // 每次输入都重新收起（鼠标动过会显示，继续打字就再收起）
         if (state.isComposing) { renderFrozenState(); lockCompositionCaret(); }
         else validateAndRender(typedBuffer());
     });
@@ -774,7 +741,7 @@
      */
     quoteInput.addEventListener('keydown', e => {
         if (e.key !== 'Backspace') return;
-        if (state.isPaused || state.isLoading) return;
+        if (state.isLoading) return;
         if (overlay.classList.contains('show')) return;         // 已完成，允许重开一篇而不是回退
         if (state.isComposing || e.isComposing || e.keyCode === 229) return; // 组字中：让 IME 自己删拼音
         if (quoteInput.value !== '') return;                    // 框内还有字：交给浏览器正常删
@@ -784,19 +751,35 @@
         renderFrozenState();
     });
 
+    /** 打字中隐藏鼠标指针；移动鼠标 / 退出沉浸 / 完成时恢复，避免用户找不到光标 */
+    function setCursorHidden(on) { document.body.classList.toggle('hide-cursor', on); }
+
+    // 鼠标一动就把指针还回来（位移 <3px 的抖动忽略，否则碰一下桌子就闪出来）
+    let lastMouse = null;
+    document.addEventListener('mousemove', e => {
+        const prev = lastMouse;
+        lastMouse = { x: e.clientX, y: e.clientY };
+        if (!prev || !document.body.classList.contains('hide-cursor')) return;
+        const dx = e.clientX - prev.x, dy = e.clientY - prev.y;
+        if (dx * dx + dy * dy < 9) return;
+        setCursorHidden(false);
+    });
+
     function enterImmersive() {
-        if (!state.isPaused && !state.isLoading && !overlay.classList.contains('show')) {
+        if (!state.isLoading && !overlay.classList.contains('show')) {
             container.classList.add('immersive');
             newQuoteBtn.disabled = true;
+            setCursorHidden(true);       // 一点进打字区就收起鼠标，不用等第一个字
         }
     }
     function exitImmersive() {
         container.classList.remove('immersive');
         newQuoteBtn.disabled = false;
+        setCursorHidden(false);      // 退出沉浸就把鼠标还回来
     }
 
     quoteDisplay.addEventListener('click', () => {
-        if (!state.isPaused && !state.isLoading) {
+        if (!state.isLoading) {
             enterImmersive();
             quoteInput.focus();
         }
@@ -805,40 +788,29 @@
         if (!container.classList.contains('immersive') || quoteDisplay.contains(e.target) || e.target === quoteInput) return;
         exitImmersive();
         quoteDisplay.classList.remove('active');
-        suppressOnce();      // 页面内主动退出沉浸，不算被打断，避免误触发自动暂停
         quoteInput.blur();
     });
     quoteInput.addEventListener('focus', () => {
-        if (!state.isPaused && !state.isLoading) { quoteDisplay.classList.add('active'); }
+        if (!state.isLoading) { quoteDisplay.classList.add('active'); }
     });
-    // 只有「页面内主动操作」不暂停（点换篇 / 皮肤 / 退出沉浸等，靠 suppressAutoPause 精确标记）；
-    // 其余任何失焦（被其他软件打断、光标离开打字框）都自动暂停。
-    // 注意：不能用 document.hasFocus() 判断——它在 blur 触发的瞬间因焦点转移时序常仍返回 true，
-    // 会把「被外部打断」误判成「页面内操作」导致不暂停。
-    let suppressAutoPause = false;
-    const suppressOnce = () => { suppressAutoPause = true; setTimeout(() => suppressAutoPause = false, 0); };
-    newQuoteBtn.addEventListener('pointerdown', suppressOnce);
-    document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('pointerdown', suppressOnce));
 
     quoteInput.addEventListener('blur', () => {
         if (!state.isComposing) quoteDisplay.classList.remove('active');
-        if (suppressAutoPause) return;   // 页面内主动操作（点换篇/皮肤等）→ 不暂停
-        pauseTyping();                   // 被外部软件打断 / 光标离开打字框 → 自动暂停
     });
-    // 兜底：切标签页、最小化、窗口失焦
-    window.addEventListener('blur', pauseTyping);
-    document.addEventListener('visibilitychange', () => { if (document.hidden) pauseTyping(); });
+    // 切标签页 / 最小化 / 窗口失焦：不再暂停，只退出沉浸（把界面和鼠标还回来）
+    window.addEventListener('blur', exitImmersive);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) exitImmersive(); });
 
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             e.preventDefault();
             if (overlay.classList.contains('show')) { resetAndNew(); return; }
-            togglePause();
+            exitImmersive();          // 暂停已移除：ESC 改为退出沉浸（把界面和鼠标还回来）
+            quoteInput.blur();
         }
         if (e.key === 'Tab') { e.preventDefault(); resetAndNew(); }
     });
 
-    pauseOverlay.addEventListener('click', resumeTyping);
     newQuoteBtn.addEventListener('click', resetAndNew);
 
     loadNewQuote();      // 线上优先：首屏先拉线上短文，失败自动兜底内置库
